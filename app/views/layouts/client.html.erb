@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Client</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+</head>
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+<body>
+
+<style>
+    .navbar-nav .nav-link {
+        color: black;
+        /*text-decoration: none;*/
+    }
+
+    .navbar-nav .nav-link.active {
+        font-weight: bold;
+    }
+
+</style>
+
+
+<header class="flex justify-between items-center border-b-2 py-4">
+  <div class="flex items-center space-x-4">
+    <img src="https://placehold.co/100x50" alt="Brand Image" class="border">
+  </div>
+  <nav class="flex space-x-4">
+    <button class="border px-4 py-2">Coins</button>
+    <button class="border px-4 py-2">Claim</button>
+    <button class="border px-4 py-2">Language</button>
+    <%= link_to "☰", menu_path, class: "border p-2 #{'active' if current_page?(menu_path)}" %>
+  </nav>
+</header>
+<%= yield %>
+<footer class="border-t-2 py-4">
+  <nav class="flex justify-around">
+      <%= link_to "Share", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+      <%= link_to "Invite", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+      <%= link_to "Lottery", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+      <%= link_to "Shop", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+      <% if user_signed_in? %>
+        <%= link_to "Me", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+      <% end %>
+  </nav>
+</footer>
+</body>
+</html>

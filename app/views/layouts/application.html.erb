@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>App</title>
+  <title>Client</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
@@ -12,6 +13,35 @@
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
 <body>
+<header class="flex justify-between items-center border-b-2 py-4">
+
+  <div class="flex items-center space-x-4">
+    <img src="https://placehold.co/100x50" alt="Brand Image" class="border">
+  </div>
+
+  <% if request.domain == 'client.com' %>
+    <nav class="flex space-x-4">
+      <button class="border px-4 py-2">Coins</button>
+      <button class="border px-4 py-2">Claim</button>
+      <button class="border px-4 py-2">Language</button>
+      <button class="border p-2">☰</button>
+    </nav>
+  <% end %>
+</header>
 <%= yield %>
+
+<% if request.domain == 'client.com' %>
+  <footer class="border-t-2 py-4">
+    <nav class="flex justify-around">
+      <button class="px-4 py-2 border">Share</button>
+      <button class="px-4 py-2 border">Invite</button>
+      <button class="px-4 py-2 border">Lottery</button>
+      <button class="px-4 py-2 border">Shop</button>
+      <% if user_signed_in? %>
+        <button class="px-4 py-2 border">Me</button>
+      <% end %>
+    </nav>
+  </footer>
+<% end %>
 </body>
 </html>
