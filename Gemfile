@@ -68,5 +68,6 @@ group :development do
 
   gem 'devise'
   gem 'carrierwave'
+  gem 'rest-client'
 end
 
