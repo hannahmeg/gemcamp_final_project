@@ -41,13 +41,13 @@
 <%= yield %>
 <footer class="border-t-2 py-4">
   <nav class="flex justify-around">
-      <%= link_to "Share", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
-      <%= link_to "Invite", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
-      <%= link_to "Lottery", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
-      <%= link_to "Shop", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
-      <% if user_signed_in? %>
-        <%= link_to "Me", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
-      <% end %>
+    <%= link_to "Share", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+    <%= link_to "Invite", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+    <%= link_to "Lottery", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+    <%= link_to "Shop", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+    <% if user_signed_in? %>
+      <%= link_to "Me", client_profile_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+    <% end %>
   </nav>
 </footer>
 </body>
