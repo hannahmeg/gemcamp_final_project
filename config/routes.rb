@@ -1,12 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: 'users/registrations' }
-
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
-  # namespace - path, views,
-  # scope
+  devise_for :users, controllers: { registrations: 'client/registrations' }
 
   constraints(ClientDomainConstraint.new) do
     devise_scope :user do
@@ -14,14 +7,16 @@ Rails.application.routes.draw do
       post 'client/sign_in', to: 'client/sessions#create'
       get 'sign_up', to: 'client/registrations#new'
       post 'sign_up', to: 'client/registrations#create'
-      get 'homepage', to: 'client#homepage'
-      get 'menu', to: 'client#menu'
-      get 'me', to: 'client#me'
+
+    end
+    get 'homepage', to: 'client#homepage'
+    get 'menu', to: 'client#menu'
+    get 'me', to: 'client#me'
+    namespace :client do
+      resource 'profile'
     end
     root 'client#index', as: 'client_root'
   end
-
-
 
   constraints(AdminDomainConstraint.new) do
     devise_scope :user do

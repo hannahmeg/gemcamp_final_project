@@ -7,4 +7,6 @@ class User < ApplicationRecord
   enum role: { client: 0, admin: 1 }
 
   mount_uploader :image, ImageUploader
+
+  attr_accessor :current_password
 end

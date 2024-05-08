@@ -1,0 +1,28 @@
+<%= form_with(model: @user, url: client_profile_path, method: :patch, local: true, class: "mt-4 p-4 border rounded") do |form| %>
+  <div class="mb-3">
+    <%= form.label :image, class: "form-label" %>
+    <%= form.file_field :image, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :phone_number, class: "form-label" %>
+    <%= form.text_field :phone_number, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :username, class: "form-label" %>
+    <%= form.text_field :username, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :password, "New Password", class: "form-label" %>
+    <%= form.password_field :password, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :current_password, "Current Password", class: "form-label" %>
+    <%= form.password_field :current_password, class: "form-control" %>
+  </div>
+
+  <%= form.submit "Update Profile", class: "btn btn-primary" %>
+<% end %>

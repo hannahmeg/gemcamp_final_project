@@ -40,7 +40,7 @@ class Client::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :username, :phone_number, :password])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :username, :phone_number, :password, :image])
   end
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -57,4 +57,5 @@ class Client::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
 end
