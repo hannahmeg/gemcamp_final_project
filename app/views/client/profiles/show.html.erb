@@ -14,10 +14,12 @@
       </div>
       <button class="w-full py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600">Cash In Now</button>
       <div class="flex justify-between">
-        <%= link_to 'Edit Profile', edit_client_profile_path(current_user), class: "w-1/2 py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600 mr-2" %>
-        <button class="w-1/2 py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600 ml-2">Address</button>
+        <%= link_to 'Edit Profile', edit_client_profile_path(current_user), class: "w-1/2 py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600 mr-2 flex justify-center items-center no-underline" %>
+        <%= link_to 'Address', client_addresses_path(current_user), class: "w-1/2 py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600 mr-2 flex justify-center items-center no-underline" %>
       </div>
     </div>
   </div>
 </div>
 </body>
+
+

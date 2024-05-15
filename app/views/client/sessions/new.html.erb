@@ -18,6 +18,9 @@
           <%= f.submit "Sign in", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
         </div>
 
+        <div class="text-center">
+          No account yet? <%= link_to "Register here", new_user_registration_path, class: "inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" %>
+        </div>
       <% end %>
     </div>
   </main>

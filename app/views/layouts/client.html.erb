@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Client</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,23 +10,21 @@
 
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+
+  <style>
+      .navbar-nav .nav-link {
+          color: black;
+      }
+
+      .navbar-nav .nav-link.active {
+          font-weight: bold;
+      }
+  </style>
 </head>
+
+<body class="bg-gray-100">
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
-<body>
-
-<style>
-    .navbar-nav .nav-link {
-        color: black;
-        /*text-decoration: none;*/
-    }
-
-    .navbar-nav .nav-link.active {
-        font-weight: bold;
-    }
-
-</style>
-
 
 <header class="flex justify-between items-center border-b-2 py-4">
   <div class="flex items-center space-x-4">
@@ -35,14 +34,47 @@
     <button class="border px-4 py-2">Coins</button>
     <button class="border px-4 py-2">Claim</button>
     <button class="border px-4 py-2">Language</button>
-    <%= link_to "☰", menu_path, class: "border p-2 #{'active' if current_page?(menu_path)}" %>
+    <button id="menu-toggle" class="border px-4 py-2">☰</button>
   </nav>
 </header>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+  <div id="menu" class="menu hidden absolute right-0 mt-10 z-50">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 bg-white p-4 shadow rounded-lg">
+        <div class="flex flex-col items-start p-4 pb-10">
+          <% if user_signed_in? %>
+          <% if current_user&.image&.present? %>
+            <%= image_tag current_user.image.url, size: "100x100", style: "border-radius: 50%;" %>
+            <% else %>
+              <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
+              <% end %>
+              <h3 class="text-lg font-semibold"> <%= current_user.username %></h3>
+            <p class="text-sm text-gray-600"> <%= current_user.email %> </p>
+            <p class="text-sm text-gray-600">Coins: <%= current_user.coins %></p>
+            </div>
+            <button class="w-full py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600">Cash In Now</button>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-blue-500 hover:text-blue-700">Contact Us</a></li>
+              <li><%= link_to "My Profile", client_profile_path %></li>
+              <%= link_to 'Sign out', destroy_user_session_path, data: { 'turbo-method': :delete } %>
+            </ul>
+              <% else %>
+            <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
+            <li><%= link_to "Log in", new_user_session_path %></li>
+            <li><%= link_to "Sign Up", new_user_registration_path %></li>
+            <% end %>
+            </div>
+    </div>
+  </div>
+</div>
+
 <%= yield %>
+
 <footer class="border-t-2 py-4">
   <nav class="flex justify-around">
     <%= link_to "Share", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
-    <%= link_to "Invite", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+    <%= link_to "Invite", client_invitations_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_invitations_path)}" %>
     <%= link_to "Lottery", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
     <%= link_to "Shop", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
     <% if user_signed_in? %>
@@ -51,4 +83,11 @@
   </nav>
 </footer>
 </body>
+
+<script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+        document.getElementById('menu').classList.toggle('hidden');
+    });
+</script>
+
 </html>
