@@ -1,29 +1,37 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: 'client/registrations' }
 
   constraints(ClientDomainConstraint.new) do
-    devise_scope :user do
-      get 'client/sign_in', to: 'client/sessions#new'
-      post 'client/sign_in', to: 'client/sessions#create'
-      get 'sign_up', to: 'client/registrations#new'
-      post 'sign_up', to: 'client/registrations#create'
-
-    end
-    get 'homepage', to: 'client#homepage'
-    get 'menu', to: 'client#menu'
-    get 'me', to: 'client#me'
-    namespace :client do
+    devise_for :users, controllers: { sessions: 'client/sessions', registrations: 'client/registrations' }
+    namespace :client, path: '' do
       resource 'profile'
+      resources 'addresses'
+      resources 'invitations' do
+        get 'generate_qr_code', on: :collection
+      end
     end
-    root 'client#index', as: 'client_root'
+    root 'client/homepage#index', as: 'client_root'
   end
 
   constraints(AdminDomainConstraint.new) do
-    devise_scope :user do
-      get 'admin/sign_in', to: 'admin/sessions#new', as: 'new_admin_session'
-      post 'admin/sign_in', to: 'admin/sessions#create'
+    devise_for :users, controllers: { sessions: 'admin/sessions' }, as: :admin
+    root 'admin/homepage#index', as: 'admin_root'
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :regions, only: [] do
+        get 'provinces', to: 'regions#provinces'
+      end
+
+      resources :provinces, only: [] do
+        get 'cities', to: 'provinces#cities'
+      end
+
+      resources :cities, only: [] do
+        get 'barangays', to: 'cities#barangays'
+      end
     end
-    root 'admin#index', as: 'admin_root'
   end
 end
+
 
