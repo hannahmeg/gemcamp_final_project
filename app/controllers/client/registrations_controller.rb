@@ -1,61 +1,43 @@
 class Client::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  before_action :configure_account_update_params, only: [:update]
+  layout 'client'
 
-  # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    cookies[:promoter] = params[:promoter] if params[:promoter].present?
+    @user = User.new
+  end
 
-  # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    @user = User.new(user_params)
+    @user.parent_id = User.find_by(email: cookies[:promoter])&.id if cookies[:promoter].present?
 
-  # GET /resource/edit
-  # def edit
-  #   super
-  # end
+    if @user.save
+      parent = User.find_by(email: cookies[:promoter])
+      if parent
+        parent.increment!(:children_members)
+        cookies.delete(:promoter)
+      end
+      redirect_to client_root_path, notice: 'Registration successful!'
+    else
+      flash.now[:alert] = 'Registration failed'
+      render :new
+    end
+  end
 
-  # PUT /resource
-  # def update
-  #   super
-  # end
+  protected
 
-  # DELETE /resource
-  # def destroy
-  #   super
-  # end
-
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
-  # def cancel
-  #   super
-  # end
-
-  # protected
-
-  # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :username, :phone_number, :password, :image])
   end
 
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
-  # end
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [:email, :username, :phone_number, :password, :image])
+  end
 
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  private
 
-  # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
-
+  def user_params
+    params.require(:user).permit(:email, :username, :phone_number, :password, :password_confirmation, :image)
+  end
 end
