@@ -1,0 +1,36 @@
+<div style="padding: 40px;">
+  <div style="text-align: center;">
+    <h1>Your Addresses</h1>
+  </div>
+  <div style="padding-right: 20px; text-align: right;">
+    <%= link_to "Add New Address", new_client_address_path, class: 'btn btn-outline-secondary' %>
+  </div>
+  <% if @addresses.any? %>
+    <div style="padding: 20px;">
+      <% @addresses.each do |address| %>
+        <div style="margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+          <p><strong>Address:</strong> <%= address.street_address %></p>
+          <p><strong>Region:</strong> <%= address.address_region.name %></p>
+          <p><strong>Province:</strong> <%= address.address_province.name %></p>
+          <p><strong>City:</strong> <%= address.address_city.name %></p>
+          <p><strong>Barangay:</strong> <%= address.address_barangay.name %></p>
+          <p><strong>Genre:</strong> <%= address.genre %></p>
+          <p><strong>Contact Person:</strong> <%= address.contact_person %></p>
+          <p><strong>Phone Number:</strong> <%= address.phone_number %></p>
+          <p><strong>Remark:</strong> <%= address.remark %></p>
+          <p><strong>Default:</strong> <%= address.is_default ? 'Yes' : 'No' %></p>
+
+          <div style="margin-top: 10px; display: flex; gap: 10px;">
+            <%= link_to 'Edit', edit_client_address_path(address), class: 'btn btn-outline-success btn-sm' %>
+            <%= button_to 'Delete', client_address_path(address), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>You have no addresses added yet.</p>
+  <% end %>
+  <div style="text-align: center;">
+    <%= link_to "Go back", client_profile_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

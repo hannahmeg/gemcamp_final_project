@@ -1,0 +1,66 @@
+<%= form_with model: @address, url: form_url, method: form_method, data: { controller: :location, turbo: false } do |f| %>
+  <div class="field">
+    <%= f.label :street_address %>
+    <%= f.text_field :street_address %>
+  </div>
+  <div>
+    <%= f.label :address_region_id %>
+    <%= f.collection_select :address_region_id,
+                            Address::Region.all, :id, :name,
+                            { prompt: 'Please select region' },
+                            data: { location_target: 'selectedRegionId', action: 'change->location#fetchProvinces' },
+                            selected: @address.address_region_id %>
+  </div>
+
+  <div>
+    <%= f.label :address_province_id %>
+    <%= f.collection_select :address_province_id,
+                            Address::Province.where(region_id: @address.address_region_id), :id, :name,
+                            { prompt: 'Please select province' },
+                            data: { location_target: 'selectProvinceId', action: 'change->location#fetchCities' },
+                            selected: @address.address_province_id %>
+  </div>
+  <div>
+    <%= f.label :address_city_id %>
+    <%= f.collection_select :address_city_id,
+                            Address::City.where(province_id: @address.address_province_id), :id, :name,
+                            { prompt: 'Please select city' },
+                            data: { location_target: 'selectCityId', action: 'change->location#fetchBarangays' },
+                            selected: @address.address_city_id %>
+  </div>
+  <div>
+    <%= f.label :address_barangay_id %>
+    <%= f.collection_select :address_barangay_id,
+                            Address::Barangay.where(city_id: @address.address_city_id), :id, :name,
+                            { prompt: 'Please select barangay' },
+                            data: { location_target: 'selectBarangayId'},
+                            selected: @address.address_barangay_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :genre %>
+    <%= f.select :genre, Address.genres.keys.map { |genre| [genre.capitalize, genre] }, { prompt: 'Please select genre' }, selected: @address.genre %>
+  </div>
+
+  <div class="field">
+    <%= f.label :contact_person %>
+    <%= f.text_field :contact_person %>
+  </div>
+
+  <div class="field">
+    <%= f.label :phone_number %>
+    <%= f.text_field :phone_number %>
+  </div>
+
+  <div class="field">
+    <%= f.label :remark %>
+    <%= f.text_field :remark %>
+  </div>
+
+  <div class="field">
+    <%= f.label :is_default %>
+    <%= f.check_box :is_default %>
+  </div>
+
+  <%= f.submit submit_text, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", type: "submit" %>
+<% end %>
