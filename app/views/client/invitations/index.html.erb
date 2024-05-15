@@ -1,0 +1,11 @@
+<div class="flex justify-center items-center flex-col p-20">
+  <div class="mb-4">
+    <h1> Your invitation code: </h1>
+  </div>
+  <div class="mb-4">
+    <img src="<%= url_for(controller: 'client/invitations', action: 'generate_qr_code', promoter: current_user.email) %>" alt="QR Code">
+  </div>
+  <div class="mb-4">
+    <p class="text-center">http://client.com:3000/users/sign_up?promoter=<%= current_user.email %></p>
+  </div>
+</div>
