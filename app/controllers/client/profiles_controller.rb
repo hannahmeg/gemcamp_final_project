@@ -2,9 +2,7 @@ class Client::ProfilesController < ClientController
   before_action :set_user
 
   def show
-    unless current_user
-      redirect_to new_user_session_path, alert: "You need to sign in or sign up before continuing."
-    end
+
   end
 
   def edit ; end
@@ -29,6 +27,6 @@ class Client::ProfilesController < ClientController
   end
 
   def user_params
-    params.require(:user).permit(:image, :phone_number, :username, :password, :current_password)
+    params.require(:user).permit(:image, :phone_number, :username, :password, :current_password, :address, :address_region_id, :address_province_id, category_ids: [])
   end
 end
