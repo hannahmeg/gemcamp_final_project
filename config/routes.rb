@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     devise_for :users, controllers: { sessions: 'client/sessions', registrations: 'client/registrations' }
     namespace :client, path: '' do
       resource 'profile'
+      resource 'lottery', only: [:show]
       resources 'addresses'
       resources 'invitations' do
         get 'generate_qr_code', on: :collection
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
     root 'admin/homepage#index', as: 'admin_root'
     namespace :admin, path: '' do
       resource 'profile'
-      resources :items, only: [:index] do
+      resources :items do
         member do
           post :start
           post :pause
