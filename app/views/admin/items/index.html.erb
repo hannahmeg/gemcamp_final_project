@@ -1,0 +1,62 @@
+<div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Image</th>
+      <th>Item Name</th>
+      <th>Quantity</th>
+      <th>Minimum Tickets</th>
+      <th>State</th>
+      <th>Batch Count</th>
+      <th>Online at</th>
+      <th>Offline at</th>
+      <th>Start at</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.image %></td>
+        <td><%= item.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= item.minimum_tickets %></td>
+        <td><%= item.state %></td>
+        <td><%= item.batch_count %></td>
+        <td><%= item.online_at %></td>
+        <td><%= item.offline_at %></td>
+        <td><%= item.start_at %></td>
+        <td>
+          <% if current_admin_user.admin? %>
+            <div class="d-flex">
+              <div class="mr-2">
+                <% if item.may_start? %>
+                  <%= button_to 'Start', start_admin_item_path(item), class: 'btn btn-outline-danger', method: :post %>
+                <% end %>
+              </div>
+              <div class="mr-2">
+                <% if item.may_pause? %>
+                  <%= button_to 'Pause', pause_admin_item_path(item), class: 'btn btn-outline-danger', method: :post %>
+                <% end %>
+              </div>
+              <div class="mr-2">
+                <% if item.may_end? %>
+                  <%= button_to 'End', end_admin_item_path(item), class: 'btn btn-outline-danger', method: :post %>
+                <% end %>
+              </div>
+              <div>
+                <% if item.may_cancel? %>
+                  <%= button_to 'Cancel', cancel_admin_item_path(item), class: 'btn btn-outline-danger', method: :post %>
+                <% end %>
+              </div>
+            </div>
+          <% else %>
+            <%= "User not signed in or not an admin" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+

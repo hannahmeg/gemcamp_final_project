@@ -15,6 +15,17 @@ Rails.application.routes.draw do
   constraints(AdminDomainConstraint.new) do
     devise_for :users, controllers: { sessions: 'admin/sessions' }, as: :admin
     root 'admin/homepage#index', as: 'admin_root'
+    namespace :admin, path: '' do
+      resource 'profile'
+      resources :items, only: [:index] do
+        member do
+          post :start
+          post :pause
+          post :end
+          post :cancel
+        end
+      end
+    end
   end
 
   namespace :api do

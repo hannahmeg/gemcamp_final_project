@@ -72,5 +72,6 @@ group :development do
   gem 'rqrcode'
   gem 'phonelib'
   gem 'kaminari'
+  gem 'aasm'
 end
 
