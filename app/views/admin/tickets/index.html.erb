@@ -1,0 +1,52 @@
+<div class="container" style="padding: 20px;">
+  <h1>All Tickets</h1>
+
+  <%= form_with url: admin_tickets_path, method: :get, local: true do |form| %>
+    <div class="row">
+      <div class="col-md-3">
+        <%= form.label :serial_number, 'Serial Number' %>
+        <%= form.text_field :serial_number, class: 'form-control' %>
+      </div>
+      <div class="col-md-3">
+        <%= form.label :item_name, 'Item Name' %>
+        <%= form.text_field :item_name, class: 'form-control' %>
+      </div>
+      <div class="col-md-3">
+        <%= form.label :email, 'Email' %>
+        <%= form.text_field :email, class: 'form-control' %>
+      </div>
+      <div class="col-md-2">
+        <%= form.label :state, 'State' %>
+        <%= form.select :state, options_for_select(Ticket.aasm.states.map(&:name).prepend('All')), { include_blank: true }, class: 'form-control' %>
+      </div>
+      <div class="col-md-1 pt-4">
+        <%= form.submit 'Search', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+
+<div class="pt-10">
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Serial Number</th>
+      <th>Item Name</th>
+      <th>Email</th>
+      <th>State</th>
+      <th>Created At</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @tickets.each do |ticket| %>
+      <tr>
+        <td><%= ticket.serial_number %></td>
+        <td><%= ticket.item.name %></td>
+        <td><%= ticket.user.email %></td>
+        <td><%= ticket.state %></td>
+        <td><%= ticket.created_at %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+</div>

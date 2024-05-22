@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     devise_for :users, controllers: { sessions: 'admin/sessions' }, as: :admin
     root 'admin/homepage#index', as: 'admin_root'
     namespace :admin, path: '' do
+      resources 'tickets', only: [:index]
       resource 'profile'
       resources :items do
         member do

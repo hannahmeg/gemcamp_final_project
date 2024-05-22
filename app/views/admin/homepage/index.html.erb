@@ -32,14 +32,14 @@
       <li class="p-2 hover:bg-zinc-700 cursor-pointer">
         <span class="toggle-arrow" onclick="toggleCollapsible(this)">Member Management</span>
         <ul class="collapsible-content">
-          <li>User List</li>
-          <li>Item List</li>
+          <li><%= link_to "User List", admin_root_path %></li>
+          <li><%= link_to "Item List", admin_items_path %></li>
         </ul>
       </li>
       <li class="p-2 hover:bg-zinc-700 cursor-pointer">
-      <span class="toggle-arrow" onclick="toggleCollapsible(this)">Example 2 Management</span>
+      <span class="toggle-arrow" onclick="toggleCollapsible(this)">Others</span>
       <ul class="collapsible-content">
-        <li>Example 1</li>
+        <li><%= link_to "Ticket List", admin_tickets_path %></li>
         <li>Example 2</li>
       </ul>
       </li>
