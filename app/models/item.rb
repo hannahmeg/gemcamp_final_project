@@ -31,7 +31,7 @@ class Item < ApplicationRecord
       transitions from: :starting, to: :paused
     end
 
-    event :end do
+    event :end, before: :check_minimum_tickets do
       transitions from: :starting, to: :ended
     end
 
@@ -47,6 +47,15 @@ class Item < ApplicationRecord
     quantity.present? && quantity > 0 && self.active? && (offline_at > Time.current)
   end
 
+  def check_minimum_tickets
+    if tickets.where(batch_count: batch_count).count >= minimum_tickets
+      select_winner
+    else
+      errors.add(:base, 'Not enough tickets to end the item')
+      throw(:abort)
+    end
+  end
+
   def update_counts
     self.quantity -= 1
     self.batch_count += 1
@@ -55,6 +64,15 @@ class Item < ApplicationRecord
 
   def cancel_tickets
     tickets.update_all(state: 'cancelled')
+  end
+
+  def select_winner
+    winning_ticket = tickets.where(batch_count: batch_count, state: 'pending').sample
+    return unless winning_ticket
+
+    Winner.create(item: self, user: winning_ticket.user, ticket: winning_ticket, state: 'won')
+    tickets.where(batch_count: batch_count).update_all(state: 'lost')
+    winning_ticket.update(state: 'won')
   end
 end
 
