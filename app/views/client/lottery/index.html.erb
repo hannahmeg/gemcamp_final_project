@@ -37,6 +37,7 @@
         <div class="border p-20">
           <%= image_tag item.image.url, class: "d-block w-100", alt: "Item Image" %>
           <div class="font-bold mb-2">Item name: <%= item.name %></div>
+          <%= link_to "View Details", client_lottery_path(item) %>
         </div>
       </div>
     <% end %>

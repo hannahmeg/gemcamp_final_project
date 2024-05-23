@@ -29,4 +29,17 @@ class Admin::TicketsController < AdminController
 
     @tickets = @tickets.order(created_at: :desc)
   end
+
+  def create
+    @ticket = Ticket.new(ticket_params)
+    if @ticket.save
+      @serial_number = @ticket.serial_number
+    end
+  end
+
+  private
+
+  def ticket_params
+    params.require(:ticket).permit(:quantity)
+  end
 end

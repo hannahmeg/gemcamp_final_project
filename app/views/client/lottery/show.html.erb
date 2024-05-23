@@ -1,0 +1,27 @@
+<div class="border p-20 text-center">
+  <%= image_tag @item.image.url, class: "d-inline-block w-40", alt: "Item Image" %>
+  <h2>Item name: <%= @item.name %></h2>
+
+  <%= form_with(model: Ticket.new, url: client_tickets_path) do |form| %>
+    <%= form.hidden_field :item_id, value: params[:id] %>
+    <%= form.label :coins, "Quantity" %>
+    <%= form.number_field :coins, min: 1 %>
+    <%= form.submit "Buy Ticket" %>
+  <% end %>
+
+  <% if current_user %>
+    <div class="p-4">
+      <h4> Your ticket serial numbers: </h4>
+      <% if @tickets.count > 0 %>
+        <% @tickets.each do |ticket| %>
+          <p>Serial Number: <%= ticket.serial_number %></p>
+        <% end %>
+      <% else %>
+        <br>
+        No tickets yet.
+      <% end %>
+  <% end %>
+  </div>
+</div>
+
+

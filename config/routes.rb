@@ -4,8 +4,9 @@ Rails.application.routes.draw do
     devise_for :users, controllers: { sessions: 'client/sessions', registrations: 'client/registrations' }
     namespace :client, path: '' do
       resource 'profile'
-      resource 'lottery', only: [:show]
+      resources 'lottery'
       resources 'addresses'
+      resources 'tickets', only: [:create]
       resources 'invitations' do
         get 'generate_qr_code', on: :collection
       end

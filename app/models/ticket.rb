@@ -4,8 +4,9 @@ class Ticket < ApplicationRecord
   belongs_to :item
   belongs_to :user
 
-  after_create :subtract_coin
   before_validation :set_batch_count
+  validate :user_has_enough_coins
+  after_create :deduct_coin
   before_create :generate_serial_number
 
   aasm column: :state do
@@ -26,32 +27,34 @@ class Ticket < ApplicationRecord
     end
   end
 
-  private
-
   def refund_coin
     user.update(coins: user.coins + 1)
   end
 
-  def subtract_coin
-    user.update(coins: user.coins - 1)
+  def deduct_coin
+    # user.update(coins: user.coins - 1)
+    u = user
+    u.update(coins: user.coins - 1)
+    u.errors.full_messages
   end
+
 
   def set_batch_count
     self.batch_count ||= item.batch_count
   end
 
   def generate_serial_number
-    Rails.logger.debug "Item: #{item.id}, Batch Count: #{batch_count}"
-
     count = Ticket.where(item: item, batch_count: batch_count).count
-    Rails.logger.debug "Count: #{count}"
-
 
     number_count = (count + 1).to_s.rjust(4, '0')
 
     formatted_time = Time.current.strftime("%y%m%d")
 
     self.serial_number = "#{formatted_time}-#{item.id}-#{item.batch_count}-#{number_count}"
+  end
+
+  def user_has_enough_coins
+    errors.add(:base, "Not enough coins") if user.coins < 1
   end
 end
 
