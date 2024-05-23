@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_21_084708) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_23_070954) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -131,6 +131,26 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_21_084708) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "winners", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "item_id"
+    t.bigint "ticket_id"
+    t.bigint "user_id"
+    t.bigint "address_id"
+    t.integer "item_batch_count"
+    t.string "state"
+    t.float "price"
+    t.datetime "paid_at"
+    t.integer "admin_id"
+    t.string "picture"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_winners_on_address_id"
+    t.index ["item_id"], name: "index_winners_on_item_id"
+    t.index ["ticket_id"], name: "index_winners_on_ticket_id"
+    t.index ["user_id"], name: "index_winners_on_user_id"
+  end
+
   add_foreign_key "addresses", "address_barangays"
   add_foreign_key "addresses", "address_cities"
   add_foreign_key "addresses", "address_provinces"
@@ -138,4 +158,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_21_084708) do
   add_foreign_key "addresses", "users"
   add_foreign_key "tickets", "items"
   add_foreign_key "tickets", "users"
+  add_foreign_key "winners", "addresses"
+  add_foreign_key "winners", "items"
+  add_foreign_key "winners", "tickets"
+  add_foreign_key "winners", "users"
 end

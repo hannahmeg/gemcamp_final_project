@@ -28,6 +28,16 @@ Rails.application.routes.draw do
           post :cancel
         end
       end
+      resources :winners do
+        member do
+          post :submit
+          post :pay
+          post :ship
+          post :deliver
+          post :publish
+          post :remove_publish
+        end
+      end
     end
   end
 
