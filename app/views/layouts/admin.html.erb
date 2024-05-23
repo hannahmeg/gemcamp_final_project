@@ -53,7 +53,7 @@
         <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" id="menu-dropdown">
           <div class="py-1" role="none">
             <a href="#" class="text-zinc-700 block px-4 py-2 text-sm" role="menuitem">Profile</a>
-            <%= link_to 'Sign out', destroy_user_session_path, data: { 'turbo-method': :delete }, class: "text-zinc-700 block px-4 py-2 text-sm" %>
+            <%= link_to 'Sign out', destroy_admin_user_session_path, data: { 'turbo-method': :delete, turbo: true }, class: "text-zinc-700 block px-4 py-2 text-sm" %>
           </div>
         </div>
       </div>
