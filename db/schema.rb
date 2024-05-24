@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_23_102312) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_24_090109) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -108,6 +108,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_23_102312) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "orders", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "offer_id"
+    t.string "serial_number"
+    t.string "state"
+    t.float "amount"
+    t.integer "coin"
+    t.string "remarks"
+    t.integer "genre"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["offer_id"], name: "index_orders_on_offer_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "tickets", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "item_id"
     t.bigint "user_id"
@@ -166,6 +181,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_23_102312) do
   add_foreign_key "addresses", "address_provinces"
   add_foreign_key "addresses", "address_regions"
   add_foreign_key "addresses", "users"
+  add_foreign_key "orders", "offers"
+  add_foreign_key "orders", "users"
   add_foreign_key "tickets", "items"
   add_foreign_key "tickets", "users"
   add_foreign_key "winners", "addresses"
