@@ -5,6 +5,12 @@ Rails.application.routes.draw do
     namespace :client, path: '' do
       resource 'profile'
       resources 'lottery'
+      resources 'shop'
+      resources :orders, only: [:new, :create] do
+        member do
+          post :buy
+        end
+      end
       resources 'addresses'
       resources 'tickets', only: [:create]
       resources 'invitations' do

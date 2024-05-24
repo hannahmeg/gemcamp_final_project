@@ -1,0 +1,38 @@
+<div class="border p-20 text-center">
+  <h2>Offer name: <%= @offer.name %></h2>
+  <div class="d-flex justify-content-center">
+    <% if @offer.image&.present? %>
+      <%= image_tag @offer.image.url, size: "100x100", class: "rounded-circle" %>
+    <% else %>
+      <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-circle mb-4"/>
+    <% end %>
+  </div>
+
+
+  <h4> Coin(s): <%= @offer.coin %> </h4>
+  <h4> Amount: <%= @offer.amount %> </h4>
+
+
+  <%= form_with(model: Order.new, url: client_orders_path) do |form| %>
+  <%= form.hidden_field :offer_id, value: params[:id] %>
+  <%= form.label :coins, "Quantity" %>
+  <%= form.number_field :coins, min: 1, value: 1 %>
+  <%= form.submit "Place Order" %>
+  <% end %>
+
+  <% if current_user %>
+      <div class="p-4">
+        <h4> Your order serial numbers: </h4>
+  <% if @orders.count > 0 %>
+  <% @orders.each do |order| %>
+            <p>Serial Number: <%= order.serial_number %></p>
+  <% end %>
+  <% else %>
+          <br>
+          No orders yet.
+  <% end %>
+  <% end %>
+</div>
+
+
+
