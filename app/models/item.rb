@@ -9,6 +9,12 @@ class Item < ApplicationRecord
 
   enum status: { active: 0, inactive: 1 }
 
+  validates :name, presence: true
+  validates :quantity, presence: true
+  validates :minimum_tickets, presence: true
+  validates :online_at, presence: true
+  validates :offline_at, presence: true
+
   def destroy
     unless tickets.exists?
       update(deleted_at: Time.current)

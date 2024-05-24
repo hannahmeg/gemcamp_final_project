@@ -1,5 +1,5 @@
 class Admin::ItemsController < AdminController
-  before_action :set_item, only: [:start, :pause, :end, :cancel]
+  before_action :set_item, except: [:index, :create, :new]
 
   def index
     @items = Item.all
@@ -13,24 +13,25 @@ class Admin::ItemsController < AdminController
     @item = Item.new(item_params)
 
     if @item.save
-      redirect_to admin_item_path(@item), notice: 'Item was successfully created.'
+      redirect_to admin_items_path, notice: 'Item was successfully created.'
     else
       render :new
     end
   end
 
-  def edit
-    @item = Item.find(params[:id])
-  end
+  def edit; end
 
   def update
-    @item = Item.find(params[:id])
-
     if @item.update(item_params)
-      redirect_to admin_item_path(@item), notice: 'Item was successfully updated.'
+      redirect_to admin_items_path, notice: 'Item was successfully updated.'
     else
       render :edit
     end
+  end
+
+  def destroy
+    @item.destroy
+    redirect_to admin_items_path, notice: 'Item was successfully destroyed.'
   end
 
   def start
@@ -80,6 +81,6 @@ class Admin::ItemsController < AdminController
   end
 
   def item_params
-    params.require(:item).permit(:image, :name, :quantity, :minimum_tickets)
+    params.require(:item).permit(:image, :name, :quantity, :minimum_tickets, :online_at, :offline_at)
   end
 end

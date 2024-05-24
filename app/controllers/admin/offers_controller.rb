@@ -20,9 +20,7 @@ class Admin::OffersController < AdminController
     end
   end
 
-  def edit
-
-  end
+  def edit; end
 
   def update
     if @offer.update(offer_params)

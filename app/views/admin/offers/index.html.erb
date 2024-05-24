@@ -23,7 +23,13 @@
   <tbody>
   <% @offers.each do |offer| %>
     <tr>
-      <td><%= image_tag offer.image.url, size: "100x100", style: "border-radius: 50%;" %></td>
+      <td>
+        <% if offer.image&.present? %>
+          <%= image_tag offer.image.url, size: "100x100", style: "border-radius: 50%;" %>
+        <% else %>
+          <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
+        <% end %>
+      </td>
       <td><%= offer.name %></td>
       <td><%= offer.status %></td>
       <td><%= offer.amount %></td>
