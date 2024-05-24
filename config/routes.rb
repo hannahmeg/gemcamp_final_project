@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     root 'admin/homepage#index', as: 'admin_root'
     namespace :admin, path: '' do
       resources 'tickets', only: [:index]
+      resources 'offers'
       resource 'profile'
       resources :items do
         member do

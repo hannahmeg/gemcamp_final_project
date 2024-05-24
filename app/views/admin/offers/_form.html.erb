@@ -1,0 +1,32 @@
+<div class="container-md p-10">
+  <%= form_with(model: [:admin, @offer], local: true) do |form| %>
+    <div class="form-group">
+      <%= form.label :image %>
+      <%= form.file_field :image, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+
+    <div class="field">
+      <%= form.label :status %>
+      <%= form.select :status, Offer.statuses.keys.map { |status| [status.capitalize, status] }, { prompt: 'Please select status' }, selected: @offer.status %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :amount %>
+      <%= form.number_field :amount, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :coin %>
+      <%= form.number_field :coin, class: 'form-control' %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit 'Submit', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

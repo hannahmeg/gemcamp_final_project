@@ -1,0 +1,47 @@
+<div class="container text-sm" style="padding: 20px;">
+<h1>Offers</h1>
+
+  <%= form_with url: admin_offers_path, method: :get, local: true do |form| %>
+    <div class="col-md-2">
+      <%= form.label :state, 'Status' %>
+      <%= form.select :status, options_for_select(Offer.statuses.keys.prepend('All'), params[:status] || 'All'), class: 'form-control' %>
+    </div>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+<% end %>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Image</th>
+    <th>Name</th>
+    <th>Status</th>
+    <th>Amount</th>
+    <th>Coin</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @offers.each do |offer| %>
+    <tr>
+      <td><%= image_tag offer.image.url, size: "100x100", style: "border-radius: 50%;" %></td>
+      <td><%= offer.name %></td>
+      <td><%= offer.status %></td>
+      <td><%= offer.amount %></td>
+      <td><%= offer.coin %></td>
+      <td>
+        <div class="d-flex">
+        <div class="mr-2">
+          <%= link_to 'Edit', edit_admin_offer_path(offer), class: 'btn btn-primary btn-sm w-100 mb-2' %>
+        </div>
+        <div>
+          <%= button_to 'Delete', admin_offer_path(offer), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger w-100" %>
+        </div>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Add New Offer', new_admin_offer_path, class: 'btn btn-primary' %>
+</div>
