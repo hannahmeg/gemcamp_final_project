@@ -27,15 +27,14 @@ class Ticket < ApplicationRecord
     end
   end
 
+  private
+
   def refund_coin
     user.update(coins: user.coins + 1)
   end
 
   def deduct_coin
-    # user.update(coins: user.coins - 1)
-    u = user
-    u.update(coins: user.coins - 1)
-    u.errors.full_messages
+    user.update(coins: user.coins - 1)
   end
 
 
