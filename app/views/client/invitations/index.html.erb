@@ -6,6 +6,6 @@
     <img src="<%= url_for(controller: 'client/invitations', action: 'generate_qr_code', promoter: current_user.email) %>" alt="QR Code">
   </div>
   <div class="mb-4">
-    <p class="text-center">http://client.com:3000/users/sign_up?promoter=<%= current_user.email %></p>
+    <p class="text-center"><%= request.base_url %>/users/sign_up?promoter=<%= current_user.email %></p>
   </div>
 </div>
