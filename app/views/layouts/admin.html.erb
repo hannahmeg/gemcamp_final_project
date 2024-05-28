@@ -11,10 +11,24 @@
   <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
 
   <style>
-      .collapsible-content { display: none; }
-      .toggle-arrow { cursor: pointer; user-select: none; }
-      .toggle-arrow::before { content: "▶"; display: inline-block; margin-right: 0.5em; }
-      .toggle-arrow.collapsed::before { content: "▼"; }
+      .collapsible-content {
+          display: none;
+      }
+
+      .toggle-arrow {
+          cursor: pointer;
+          user-select: none;
+      }
+
+      .toggle-arrow::before {
+          content: "▶";
+          display: inline-block;
+          margin-right: 0.5em;
+      }
+
+      .toggle-arrow.collapsed::before {
+          content: "▼";
+      }
   </style>
 
   <script>
@@ -78,6 +92,8 @@
           <ul class="collapsible-content">
             <li><%= link_to "Ticket List", admin_tickets_path %></li>
             <li><%= link_to "Winners List", admin_winners_path %></li>
+            <li><%= link_to "Offers List", admin_offers_path %></li>
+            <li><%= link_to "Orders List", admin_orders_path %></li>
         </li>
       </ul>
     </div>
