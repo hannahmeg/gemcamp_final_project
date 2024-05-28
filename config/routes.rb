@@ -5,12 +5,8 @@ Rails.application.routes.draw do
     namespace :client, path: '' do
       resource 'profile'
       resources 'lottery'
-      resources 'shop'
-      resources :orders, only: [:new, :create] do
-        member do
-          post :buy
-        end
-      end
+      resources 'shop', only: [:index]
+      resources :orders, only: [:new, :create]
       resources 'addresses'
       resources 'tickets', only: [:create]
       resources 'invitations' do
@@ -25,6 +21,12 @@ Rails.application.routes.draw do
     root 'admin/homepage#index', as: 'admin_root'
     namespace :admin, path: '' do
       resources 'tickets', only: [:index]
+      resources 'orders', only: [:index] do
+        member do
+          post :pay
+          post :cancel
+        end
+      end
       resources 'offers'
       resource 'profile'
       resources :items do

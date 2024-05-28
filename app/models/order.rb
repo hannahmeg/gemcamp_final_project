@@ -4,10 +4,11 @@ class Order < ApplicationRecord
   belongs_to :user
   belongs_to :offer, required: false
 
+  validates :genre, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }, if: :deposit?
   validates :coin, presence: true, numericality: { greater_than: 0 }, if: :deposit?
 
-  before_create :generate_serial_number
+  after_create :generate_serial_number
 
   enum genre: { deposit: 0, increase: 1, deduct: 2, bonus: 3, share: 4 }
 
@@ -20,14 +21,17 @@ class Order < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: [:pending, :submitted, :paid], to: :cancelled,
-                  guard: -> { decrease_coin_unless_deduct && balance_enough? },
-                  success: [:decrease_coin_unless_deduct, :increase_coin_if_deduct, :decrease_total_deposit]
+      transitions from: :paid, to: :cancelled,
+                  guard: [:enough_balance?, :is_not_deduct?],
+                  success: [:decrease_coin_unless_deduct, :decrease_total_deposit]
+      transitions from: :paid, to: :cancelled,
+                  guard: :deduct?,
+                  success: :increase_coin_if_deduct
     end
 
     event :pay do
       transitions from: :submitted, to: :paid,
-                  success: [:increase_coin_unless_deduct, :decrease_coin_if_deduct, :increase_total_deposit]
+                  success: [:adjust_coins, :increase_total_deposit]
     end
   end
 
@@ -40,35 +44,39 @@ class Order < ApplicationRecord
 
     formatted_time = Time.current.strftime("%y%m%d")
 
-    self.serial_number = "#{formatted_time}-#{self.id}-#{user.id}-#{number_count}"
+    self.update(serial_number: "#{formatted_time}-#{self.id}-#{user.id}-#{number_count}")
   end
 
-  def increase_coin_unless_deduct
-    user.update(coins: user.coins + 1) unless deduct?
-  end
-
-  def decrease_coin_if_deduct
-    user.update(coins: user.coins - 1) if deduct?
+  def adjust_coins
+    if deduct?
+      user.update(coins: user.coins - offer.amount)
+    else
+      user.update(coins: user.coins + offer.coin)
+    end
   end
 
   def increase_total_deposit
-    user.update(total_deposit: user.total_deposit + 1) if deposit?
+    user.update(total_deposit: user.total_deposit + offer.amount) if deposit?
   end
 
   def decrease_total_deposit
-    user.update(total_deposit: user.total_deposit - 1) if deposit?
+    user.update(total_deposit: user.total_deposit - offer.amount) if deposit?
   end
 
-  def balance_enough?
-    user.coins != 0
+  def enough_balance?
+    user.coins > offer.coin
   end
 
   def decrease_coin_unless_deduct
-    user.update(coins: user.coins - 1) unless deduct?
+    user.update(coins: user.coins - offer.coin)
   end
 
   def increase_coin_if_deduct
-    user.update(coins: user.coins + 1) if deduct?
+    user.update(coins: user.coins + offer.coin)
+  end
+
+  def is_not_deduct?
+    genre != 'deduct'
   end
 end
 

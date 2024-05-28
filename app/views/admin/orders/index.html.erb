@@ -1,0 +1,99 @@
+<div class="container text-sm" style="padding: 20px;">
+  <h1>All Orders</h1>
+
+  <%= form_with url: admin_orders_path, method: :get, local: true do |form| %>
+    <div class="row">
+      <div class="col-md-3">
+        <%= form.label :serial_number, 'Serial Number' %>
+        <%= form.text_field :serial_number, class: 'form-control' %>
+      </div>
+      <div class="col-md-3">
+        <%= form.label :email, 'Email' %>
+        <%= form.text_field :email, class: 'form-control' %>
+      </div>
+      <div class="col-md-2">
+        <%= form.label :state, 'Genre' %>
+        <%= form.select :state, options_for_select(Order.genres), { include_blank: true }, class: 'form-control' %>
+      </div>
+      <div class="col-md-2">
+        <%= form.label :state, 'State' %>
+        <%= form.select :state, options_for_select(Order.aasm.states.map(&:name).prepend('All')), { include_blank: true }, class: 'form-control' %>
+      </div>
+      <div class="col-md-2">
+        <%= form.label :offer_id, 'Offer' %>
+        <%= form.select :offer_id, options_for_select([['All', '']] + Offer.all.pluck(:name, :id), { include_blank: true }), class: 'form-control' %>
+      </div>
+      <div class="col-md-3">
+        <%= form.label :start_date, 'Start Date' %>
+        <%= form.date_field :start_date, class: 'form-control' %>
+      </div>
+      <div class="col-md-3">
+        <%= form.label :end_date, 'End Date' %>
+        <%= form.date_field :end_date, class: 'form-control' %>
+      </div>
+      <div class="col-md-1 pt-4">
+        <%= form.submit 'Search', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="pt-10">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Serial Number</th>
+        <th>Email</th>
+        <th>Genre</th>
+        <th>State</th>
+        <th>Created At</th>
+        <th>Offer</th>
+        <th>Amount</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td><%= order.serial_number %></td>
+          <td><%= order.user.email %></td>
+          <td><%= order.genre %></td>
+          <td><%= order.state %></td>
+          <td><%= order.created_at %></td>
+          <td><%= order.offer.name %></td>
+          <td><%= order.amount %></td>
+          <td>
+            <div class="mr-2">
+              <% if order.may_pay? %>
+                <%= button_to 'Pay', pay_admin_order_path(order), class: 'btn btn-outline-danger', method: :post %>
+              <% end %>
+            </div>
+            <div class="mr-2">
+              <% if order.may_cancel? %>
+                <%= button_to 'Cancel', cancel_admin_order_path(order), class: 'btn btn-outline-danger', method: :post %>
+              <% end %>
+            </div>
+          </td>
+      <% end %>
+      </tr>
+      </tbody>
+    </table>
+    <%= paginate @orders %>
+  </div>
+
+  <div class="row pt-4">
+    <div class="col-md-4">
+      <h3>Current Page Subtotal</h3>
+      <p>Amount: <%= @subtotal_amount %></p>
+      <p>Fee: <%= '0.00' %></p>
+      <p>Coins: <%= @subtotal_coins %></p>
+    </div>
+    <div class="col-md-4">
+      <h3>Current Week Subtotals</h3>
+      <%= Time.current.beginning_of_week.strftime("%B %d, %Y") %>
+      to <%= Time.current.end_of_week.strftime("%B %d, %Y") %>
+      <p>Amount: <%= @total_amount %></p>
+      <p>Fee: <%= '0.00' %></p>
+      <p>Coins: <%= @total_coins %></p>
+    </div>
+  </div>
+</div>
