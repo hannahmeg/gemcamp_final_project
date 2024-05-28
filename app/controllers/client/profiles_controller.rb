@@ -1,11 +1,9 @@
 class Client::ProfilesController < ClientController
   before_action :set_user
 
-  def show
+  def show; end
 
-  end
-
-  def edit ; end
+  def edit; end
 
   def update
     if params[:user][:password].blank?
