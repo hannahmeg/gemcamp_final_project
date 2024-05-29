@@ -1,3 +1,4 @@
+<div class="container-md p-5">
 <% if @addresses.any? %>
   <%= form_tag(client_profile_claim_path, method: :patch) do %>
     <% @addresses.each do |address| %>
@@ -17,8 +18,7 @@
         </label>
       </div>
     <% end %>
-    <%= hidden_field_tag :ticket_id, @ticket.id %>
-    <%= submit_tag 'Select Address' %>
+    <%= submit_tag 'Select Address', class: "btn btn-primary" %>
   <% end %>
 <% else %>
   <div class="text-center p-5">
@@ -26,3 +26,4 @@
     <%= link_to "Add New Address", new_client_address_path, class: 'btn btn-outline-secondary' %>
   </div>
 <% end %>
+</div>

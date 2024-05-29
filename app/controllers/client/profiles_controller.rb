@@ -1,6 +1,8 @@
 class Client::ProfilesController < ClientController
   before_action :set_user
 
+  def show; end
+
   def lottery_history
     @tickets = Ticket.includes(:item).where(user_id: current_user.id).page(params[:page]).per(5)
   end
@@ -10,7 +12,7 @@ class Client::ProfilesController < ClientController
   end
 
   def winning_history
-    @tickets = Ticket.includes(:item).where(user_id: current_user.id, state: 'won').page(params[:page]).per(5)
+    @winners = Winner.includes(:item).where(user_id: current_user.id).page(params[:page]).per(5)
   end
 
   def invitation_history
