@@ -1,0 +1,16 @@
+<%= render 'client/homepage/shared_header' %>
+
+<div class="text-center p-5">
+<h3>Winners' Feedback</h3>
+</div>
+<div class="container-md pb-5">
+  <% @winners.each do |winner| %>
+    <div class="border p-3 rounded-lg shadow-sm bg-white flex justify-between items-center" style="margin-bottom: 15px;">
+      <%= image_tag winner.picture.url, size: "100x100", style: "border-radius: 50%;" %>
+      <div class="container-md">
+        <div class="text-sm mb-2"><span class="font-bold">Posted by: </span><%= winner.user.email %></div>
+        <div class="text-sm mb-2"><span class="font-bold">Comment: </span><%= winner.comment %></div>
+      </div>
+    </div>
+  <% end %>
+</div>

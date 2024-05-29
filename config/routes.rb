@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         resources 'claim', only: [:show, :update]
         resources 'share', only: [:show, :update]
       end
+      resources 'share_page', only: [:index]
       resources 'lottery'
       resources 'shop', only: [:index]
       resources :orders, only: [:new, :create]

@@ -74,7 +74,7 @@
 
 <footer class="border-t-2 py-4">
   <nav class="flex justify-around">
-    <%= link_to "Share", client_root_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
+    <%= link_to "Share", client_share_page_index_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_share_page_index_path)}" %>
     <%= link_to "Invite", client_invitations_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_invitations_path)}" %>
     <%= link_to "Lottery", client_lottery_index_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_lottery_index_path)}" %>
     <%= link_to "Shop", client_shop_index_path, class: "nav-link px-4 py-2 border #{'active' if current_page?(client_root_path)}" %>
