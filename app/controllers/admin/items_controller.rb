@@ -30,8 +30,12 @@ class Admin::ItemsController < AdminController
   end
 
   def destroy
-    @item.destroy
-    redirect_to admin_items_path, notice: 'Item was successfully destroyed.'
+    if @item.destroy
+      flash[:notice] = 'Item destroyed successfully'
+    else
+      flash[:alert] = @item.errors.full_messages.join(', ')
+    end
+    redirect_to admin_items_path
   end
 
   def start
@@ -81,6 +85,6 @@ class Admin::ItemsController < AdminController
   end
 
   def item_params
-    params.require(:item).permit(:image, :name, :quantity, :minimum_tickets, :online_at, :offline_at)
+    params.require(:item).permit(:image, :name, :quantity, :minimum_tickets, :online_at, :offline_at, category_ids: [])
   end
 end

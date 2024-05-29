@@ -1,5 +1,5 @@
 class Address < ApplicationRecord
-  self.table_name = 'addresses'  # Specify the correct table name here
+  self.table_name = 'addresses'
 
   validate :validate_address_count, on: :create
 
