@@ -52,23 +52,23 @@
             <% end %>
 
             <% if winner.may_pay? %>
-              <%= button_to "Pay", pay_admin_winner_path(winner), method: :put, class: 'btn btn-outline-primary' %>
+              <%= button_to "Pay", pay_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
             <% end %>
 
             <% if winner.may_ship? %>
-              <%= button_to "Ship", ship_admin_winner_path(winner), method: :put, class: 'btn btn-outline-primary' %>
+              <%= button_to "Ship", ship_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
             <% end %>
 
             <% if winner.may_deliver? %>
-              <%= button_to "Deliver", deliver_admin_winner_path(winner), method: :put, class: 'btn btn-outline-primary' %>
+              <%= button_to "Deliver", deliver_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
             <% end %>
 
             <% if winner.may_publish? %>
-              <%= button_to "Publish", publish_admin_winner_path(winner), method: :put, class: 'btn btn-outline-primary' %>
+              <%= button_to "Publish", publish_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
             <% end %>
 
             <% if winner.may_remove_publish? %>
-              <%= button_to "Remove Publish", remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-outline-primary' %>
+              <%= button_to "Remove Publish", remove_publish_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
             <% end %>
           </td>
         </tr>

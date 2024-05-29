@@ -1,11 +1,10 @@
 class Item < ApplicationRecord
-  default_scope { where(deleted_at: nil) }
   mount_uploader :image, ImageUploader
   include AASM
 
   has_many :item_category_ships
   has_many :categories, through: :item_category_ships
-  has_many :tickets
+  has_many :tickets, dependent: :restrict_with_exception
 
   enum status: { active: 0, inactive: 1 }
 
@@ -15,12 +14,14 @@ class Item < ApplicationRecord
   validates :online_at, presence: true
   validates :offline_at, presence: true
 
+  default_scope { where(deleted_at: nil) }
+
   def destroy
     unless tickets.exists?
       update(deleted_at: Time.current)
     else
-      errors.add(:base, 'Cannot delete item with associated tickets')
-      throw(:abort)
+      errors.add(:base, 'Cannot delete item with associated tickets.')
+      false
     end
   end
 
@@ -37,8 +38,8 @@ class Item < ApplicationRecord
       transitions from: :starting, to: :paused
     end
 
-    event :end, before: :check_minimum_tickets do
-      transitions from: :starting, to: :ended
+    event :end do
+      transitions from: :starting, to: :ended, guard: :check_minimum_tickets, success: :select_winner
     end
 
     event :cancel do
@@ -54,12 +55,7 @@ class Item < ApplicationRecord
   end
 
   def check_minimum_tickets
-    if tickets.where(batch_count: batch_count).count >= minimum_tickets
-      select_winner
-    else
-      errors.add(:base, 'Not enough tickets to end the item')
-      throw(:abort)
-    end
+    tickets.where(batch_count: batch_count).count >= minimum_tickets
   end
 
   def update_counts
@@ -76,7 +72,7 @@ class Item < ApplicationRecord
     winning_ticket = tickets.where(batch_count: batch_count, state: 'pending').sample
     return unless winning_ticket
 
-    Winner.create(item: self, user: winning_ticket.user, ticket: winning_ticket, state: 'won')
+    Winner.create(item: self, batch_count: batch_count, user: winning_ticket.user, ticket: winning_ticket, state: 'won')
     tickets.where(batch_count: batch_count).update_all(state: 'lost')
     winning_ticket.update(state: 'won')
   end
