@@ -1,4 +1,6 @@
 class Client::InvitationsController < ClientController
+  before_action :authenticate_user!
+
   def generate_qr_code
     promoter_email = params[:promoter]
     sign_up_url = "#{request.base_url}/users/sign_up?promoter=#{promoter_email}"

@@ -1,5 +1,5 @@
 class Client::ProfilesController < ClientController
-  before_action :set_user
+  before_action :set_user, :authenticate_user!
 
   def show; end
 

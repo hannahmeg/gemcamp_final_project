@@ -1,5 +1,5 @@
 class Client::ShopController < ClientController
   def index
-    @offers = Offer.all
+    @offers = Offer.active
   end
 end
