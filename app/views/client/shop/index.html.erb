@@ -1,46 +1,23 @@
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="https://via.placeholder.com/1200x300" class="d-block w-100" alt="Banner Image 1">
-    </div>
-    <div class="carousel-item">
-      <img src="https://via.placeholder.com/1200x300" class="d-block w-100" alt="Banner Image 2">
-    </div>
-    <div class="carousel-item">
-      <img src="https://via.placeholder.com/1200x300" class="d-block w-100" alt="Banner Image 3">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+<%= render 'client/homepage/shared_header' %>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4">
-  <div class="col-span-1 lg:col-span-4 border-b pb-4">
-    <div class="font-bold mb-2">Announcement:</div>
-    <button class="border px-4 py-2">Winners Feedback</button>
-  </div>
-
-  <% @offers.each do |offer| %>
-    <% if offer.active? %>
-      <div class="space-y-4">
-        <div class="border p-20">
-          <% if offer.image&.present? %>
-            <%= image_tag offer.image.url, size: "100x100", style: "border-radius: 50%;" %>
-          <% else %>
-            <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
-          <% end %>
-          <div class="font-bold mb-2">Name: <%= offer.name %></div>
-          <div class="font-bold mb-2">Amount: <%= offer.amount %></div>
-          <div class="font-bold mb-2">Coin: <%= offer.coin %></div>
-          <%= button_to 'Buy', client_orders_path(offer_id: offer.id), class: 'btn btn-outline-danger', method: :post %>
+<div class="container-md p-5">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4">
+    <% @offers.each do |offer| %>
+      <% if offer %>
+        <div class="space-y-4 h-full">
+          <div class="border p-4 h-full flex flex-col justify-between items-center">
+            <% if offer.image&.present? %>
+              <%= image_tag offer.image.url, size: "100x100", style: "border-radius: 50%;" %>
+            <% else %>
+              <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
+            <% end %>
+            <div class="font-bold">Name: <%= offer.name %></div>
+            <div class="font-bold">Amount: <%= offer.amount %></div>
+            <div class="font-bold">Coin: <%= offer.coin %></div>
+            <%= button_to 'Buy', client_orders_path(offer_id: offer.id), class: 'btn btn-outline-danger', method: :post %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>
