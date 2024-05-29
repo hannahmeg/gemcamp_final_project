@@ -30,6 +30,10 @@
       <%= form.datetime_local_field :offline_at, class: 'form-control', required: true %>
     </div>
 
+    <div class="mb-3">
+      <%= form.collection_check_boxes :category_ids, Category.all, :id, :name %>
+    </div>
+
     <div class="actions">
       <%= form.submit 'Submit', class: 'btn btn-primary' %>
     </div>

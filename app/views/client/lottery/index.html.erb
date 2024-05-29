@@ -26,24 +26,46 @@
     <button class="border px-4 py-2">Winners Feedback</button>
 
     <div class="font-bold mb-2">Categories:</div>
+    <button class="border px-4 py-2 category-button" data-category-id="all">All</button>
     <% @categories.each do |category| %>
-      <button class="border px-4 py-2"><%= category.name %></button>
+      <button class="border px-4 py-2 category-button" data-category-id="<%= category.id %>"><%= category.name %></button>
     <% end %>
   </div>
 
   <% @items.each do |item| %>
-    <% if item.active? && item.starting? && (item.offline_at && Time.current < item.offline_at) %>
-      <div class="space-y-4">
-        <div class="border p-20">
-          <% if item.image&.present? %>
-            <%= image_tag item.image.url, size: "100x100", style: "border-radius: 50%;" %>
-          <% else %>
-            <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
-          <% end %>
-          <div class="font-bold mb-2">Item name: <%= item.name %></div>
-          <%= link_to "View Details", client_lottery_path(item) %>
-        </div>
+    <div class="space-y-4 item" data-item-category-ids="<%= item.category_ids.join(' ') %>">
+      <div class="border p-20">
+        <% if item.image&.present? %>
+          <%= image_tag item.image.url, size: "100x100", style: "border-radius: 50%;" %>
+        <% else %>
+          <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
+        <% end %>
+        <div class="font-bold mb-2">Item name: <%= item.name %></div>
+        <%= link_to "View Details", client_lottery_path(item) %>
       </div>
-    <% end %>
+    </div>
   <% end %>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const categoryButtons = document.querySelectorAll('.category-button');
+        const items = document.querySelectorAll('.item');
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const categoryId = this.getAttribute('data-category-id');
+
+                items.forEach(item => {
+                    const itemCategoryIds = item.getAttribute('data-item-category-ids').split(' ');
+
+                    if (categoryId === 'all' || itemCategoryIds.includes(categoryId)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
