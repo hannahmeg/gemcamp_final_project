@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         get 'lottery_history'
         get 'winning_history'
         get 'invitation_history'
+        resources 'claim', only: [:show, :update]
       end
       resources 'lottery'
       resources 'shop', only: [:index]

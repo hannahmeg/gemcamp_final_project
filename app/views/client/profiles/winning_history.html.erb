@@ -4,11 +4,19 @@
   <% if @tickets.present? %>
     <div class="space-y-6">
       <% @tickets.each do |ticket| %>
-        <div class="border p-6 rounded-lg shadow-sm bg-white">
-          <div class="text-sm mb-2"><span class="font-bold">Item Name: </span><%= ticket.item.name %></div>
-          <div class="text-sm mb-2"><span class="font-bold">Serial Number: </span><%= ticket.serial_number %></div>
-          <div class="text-sm mb-2"><span class="font-bold">Created At: </span><%= ticket.created_at %></div>
-          <div class="text-sm mb-2"><span class="font-bold">Status: </span><%= ticket.state %></div>
+        <div class="border p-3 rounded-lg shadow-sm bg-white flex justify-between items-center">
+          <div>
+            <div class="text-sm mb-2"><span class="font-bold">Item Name: </span><%= ticket.item.name %></div>
+            <div class="text-sm mb-2"><span class="font-bold">Serial Number: </span><%= ticket.ticket.serial_number %>
+            </div>
+            <div class="text-sm mb-2"><span class="font-bold">Created At: </span><%= ticket.created_at %></div>
+            <div class="text-sm mb-2"><span class="font-bold">Status: </span><%= ticket.state %></div>
+          </div>
+          <% if ticket.may_claim? %>
+            <div>
+              <%= link_to 'Claim', client_profile_claim_path(ticket.ticket_id), class: "bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600 no-underline" %>
+            </div>
+          <% end %>
         </div>
       <% end %>
       <div class="flex justify-center">
