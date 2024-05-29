@@ -27,7 +27,7 @@
         <%= form.submit 'Search', class: 'btn btn-primary' %>
       </div>
   <% end %>
-    </div>
+  </div>
 
 
   <div class="pt-10">
@@ -52,23 +52,23 @@
             <% end %>
 
             <% if winner.may_pay? %>
-              <%= button_to "Pay", pay_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
+              <%= button_to "Pay", pay_admin_winner_path(winner), method: :post, class: 'btn btn-outline-success' %>
             <% end %>
 
             <% if winner.may_ship? %>
-              <%= button_to "Ship", ship_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
+              <%= button_to "Ship", ship_admin_winner_path(winner), method: :post, class: 'btn btn-outline-info' %>
             <% end %>
 
             <% if winner.may_deliver? %>
-              <%= button_to "Deliver", deliver_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
+              <%= button_to "Deliver", deliver_admin_winner_path(winner), method: :post, class: 'btn btn-outline-dark' %>
             <% end %>
 
             <% if winner.may_publish? %>
-              <%= button_to "Publish", publish_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
+              <%= button_to "Publish", publish_admin_winner_path(winner), method: :post, class: 'btn btn-outline-warning' %>
             <% end %>
 
             <% if winner.may_remove_publish? %>
-              <%= button_to "Remove Publish", remove_publish_admin_winner_path(winner), method: :post, class: 'btn btn-outline-primary' %>
+              <%= button_to "Remove Publish", remove_publish_admin_winner_path(winner), method: :post, class: 'btn btn-outline-danger' %>
             <% end %>
           </td>
         </tr>

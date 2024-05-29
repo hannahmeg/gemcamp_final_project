@@ -12,7 +12,6 @@
         <th>Batch Count</th>
         <th>Online at</th>
         <th>Offline at</th>
-        <th>Start at</th>
         <th>Actions</th>
       </tr>
       </thead>
@@ -33,13 +32,12 @@
           <td><%= item.batch_count %></td>
           <td><%= item.online_at %></td>
           <td><%= item.offline_at %></td>
-          <td><%= item.start_at %></td>
           <td>
             <% if current_admin_user.admin? %>
               <div class="d-flex">
                 <div class="mr-2">
                   <% if item.may_start? %>
-                    <%= button_to 'Start', start_admin_item_path(item), class: 'btn btn-outline-danger', method: :post %>
+                    <%= button_to 'Start', start_admin_item_path(item), class: 'btn btn-outline-success', method: :post %>
                   <% end %>
                 </div>
                 <div class="mr-2">
