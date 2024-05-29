@@ -2,7 +2,7 @@ class Client::LotteryController < ClientController
   before_action :set_item, only: [:show]
 
   def index
-    @items = Item.all
+    @items = Item.active.starting.where("online_at <= ? AND offline_at >= ?", Time.current, Time.current)
     @categories = Category.all
   end
 

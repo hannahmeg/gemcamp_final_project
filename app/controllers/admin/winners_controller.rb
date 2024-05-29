@@ -27,6 +27,8 @@ class Admin::WinnersController < AdminController
 
   def pay
     if @winner.pay!
+      @winner.update(paid_at: Time.now)
+      @winner.update(admin_id: current_admin_user.id)
       flash[:notice] = "Paid successfully"
     else
       flash[:notice] = "Failed to pay"

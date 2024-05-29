@@ -2,6 +2,7 @@ class Client::TicketsController < ClientController
   before_action :authenticate_user!
 
   def create
+    quantity = ticket_params[:coins].to_i
     item = Item.find(params[:ticket][:item_id])
     quantity.times do
       @ticket = Ticket.new(item_id: item.id, user_id: current_user.id, batch_count: item.batch_count)
@@ -16,6 +17,10 @@ class Client::TicketsController < ClientController
   end
 
   private
+
+  def ticket_params
+    params.require(:ticket).permit(:coins)
+  end
 
   def authenticate_user!
     unless user_signed_in?
