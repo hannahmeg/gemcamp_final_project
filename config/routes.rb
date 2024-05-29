@@ -3,7 +3,12 @@ Rails.application.routes.draw do
   constraints(ClientDomainConstraint.new) do
     devise_for :users, controllers: { sessions: 'client/sessions', registrations: 'client/registrations' }
     namespace :client, path: '' do
-      resource 'profile'
+      resource 'profile' do
+        get 'order_history'
+        get 'lottery_history'
+        get 'winning_history'
+        get 'invitation_history'
+      end
       resources 'lottery'
       resources 'shop', only: [:index]
       resources :orders, only: [:new, :create]

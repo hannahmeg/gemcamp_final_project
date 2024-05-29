@@ -1,0 +1,24 @@
+<%= render partial: 'header' %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <% if @tickets.present? %>
+    <div class="space-y-6">
+      <% @tickets.each do |ticket| %>
+        <div class="border p-6 rounded-lg shadow-sm bg-white">
+          <div class="text-sm mb-2"><span class="font-bold">Item Name: </span><%= ticket.item.name %></div>
+          <div class="text-sm mb-2"><span class="font-bold">Serial Number: </span><%= ticket.serial_number %></div>
+          <div class="text-sm mb-2"><span class="font-bold">Created At: </span><%= ticket.created_at %></div>
+          <div class="text-sm mb-2"><span class="font-bold">Status: </span><%= ticket.state %></div>
+        </div>
+      <% end %>
+      <div class="flex justify-center">
+        <%= paginate @tickets %>
+      </div>
+      <div class="text-center text-gray-700 py-4 text-sm font-medium">
+        Total tickets made: <%= @tickets.total_count %>
+      </div>
+    </div>
+  <% else %>
+    <div class="text-center text-gray-500 py-4">No lottery tickets found.</div>
+  <% end %>
+</div>

@@ -1,0 +1,33 @@
+<div class="bg-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 bg-white p-4 shadow rounded-lg">
+        <div class="flex flex-col items-start p-4 pb-10">
+          <% if current_user.image.present? %>
+            <%= image_tag current_user.image.url, size: "100x100", style: "border-radius: 50%;" %>
+          <% else %>
+            <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
+          <% end %>
+          <h3 class="text-lg font-semibold"> <%= current_user.username %></h3>
+          <p class="text-sm text-gray-600"> <%= current_user.email %> </p>
+          <p class="text-sm text-gray-600">Coins: <%= current_user.coins %></p>
+        </div>
+        <%= link_to 'Cash In Now', client_shop_index_path, class: "py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600 mr-2 flex justify-center items-center no-underline" %>
+        <div class="flex justify-between">
+          <%= link_to 'Edit Profile', edit_client_profile_path(current_user), class: "w-1/2 py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600 mr-2 flex justify-center items-center no-underline" %>
+          <%= link_to 'Address', client_addresses_path(current_user), class: "w-1/2 py-2 bg-blue-500 text-white rounded mb-4 hover:bg-blue-600 mr-2 flex justify-center items-center no-underline" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+    <div class="flex justify-between">
+      <%= link_to 'Order History', order_history_client_profile_path, class: "w-1/2 py-2 rounded mb-4 mr-2 flex justify-center items-center no-underline #{'bg-blue-700 text-white' if current_page?(order_history_client_profile_path)} bg-blue-500 text-white hover:bg-blue-600" %>
+      <%= link_to 'Lottery History', lottery_history_client_profile_path, class: "w-1/2 py-2 rounded mb-4 mr-2 flex justify-center items-center no-underline #{'bg-blue-700 text-white' if current_page?(lottery_history_client_profile_path)} bg-blue-500 text-white hover:bg-blue-600" %>
+      <%= link_to 'Winning History', winning_history_client_profile_path, class: "w-1/2 py-2 rounded mb-4 mr-2 flex justify-center items-center no-underline #{'bg-blue-700 text-white' if current_page?(winning_history_client_profile_path)} bg-blue-500 text-white hover:bg-blue-600" %>
+      <%= link_to 'Invitation History', invitation_history_client_profile_path, class: "w-1/2 py-2 rounded mb-4 mr-2 flex justify-center items-center no-underline #{'bg-blue-700 text-white' if current_page?(invitation_history_client_profile_path)} bg-blue-500 text-white hover:bg-blue-600" %>
+    </div>
+  </div>
+</div>
+
+

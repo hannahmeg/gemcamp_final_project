@@ -1,0 +1,22 @@
+<%= render partial: 'header' %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <% if @children.present? %>
+    <div class="space-y-6">
+      <% @children.each do |child| %>
+        <div class="border p-6 rounded-lg shadow-sm bg-white">
+          <div class="text-sm mb-2"><span class="font-bold">User ID:</span> <%= child.id %></div>
+          <div class="text-sm mb-2"><span class="font-bold">Email:</span> <%= child.email %></div>
+        </div>
+      <% end %>
+      <div class="flex justify-center">
+        <%= paginate @tickets %>
+      </div>
+      <div class="text-center text-gray-700 py-4 text-sm font-medium">
+        Total invitations made: <%= @children.total_count %>
+      </div>
+    </div>
+  <% else %>
+    <div class="text-center text-gray-500 py-4 text-sm">No invitations found.</div>
+  <% end %>
+</div>

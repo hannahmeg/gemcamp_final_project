@@ -1,7 +1,23 @@
 class Client::ProfilesController < ClientController
   before_action :set_user
 
-  def show; end
+  def lottery_history
+    @tickets = Ticket.includes(:item).where(user_id: current_user.id).page(params[:page]).per(5)
+  end
+
+  def order_history
+    @orders = Order.includes(:offer).where(user_id: current_user.id).page(params[:page]).per(5)
+  end
+
+  def winning_history
+    @tickets = Ticket.includes(:item).where(user_id: current_user.id, state: 'won').page(params[:page]).per(5)
+  end
+
+  def invitation_history
+    @children = User.where(parent_id: current_user.id).page(params[:page]).per(5)
+  end
+
+
 
   def edit; end
 
