@@ -27,6 +27,7 @@ class Order < ApplicationRecord
       transitions from: :paid, to: :cancelled,
                   guard: :deduct?,
                   success: :increase_coin_if_deduct
+      transitions from: :submitted, to: :cancelled
     end
 
     event :pay do

@@ -14,7 +14,9 @@ Rails.application.routes.draw do
       resources 'share_page', only: [:index]
       resources 'lottery'
       resources 'shop', only: [:index]
-      resources :orders, only: [:new, :create]
+      resources :orders, only: [:new, :create] do
+        post :cancel, on: :member
+      end
       resources 'addresses'
       resources 'tickets', only: [:create]
       resources 'invitations' do

@@ -13,6 +13,16 @@ class Client::OrdersController < ClientController
     end
   end
 
+  def cancel
+    @order = Order.find(params[:id])
+    if @order.cancel!
+      flash[:notice] = "Order cancelled successfully."
+    else
+      flash[:alert] = "Failed to cancel order."
+    end
+    redirect_to order_history_client_profile_path
+  end
+
   private
 
   def authenticate_user!

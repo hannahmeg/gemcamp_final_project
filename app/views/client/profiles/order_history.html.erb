@@ -11,6 +11,11 @@
           <div class="text-sm mb-2"><span class="font-bold">Serial Number: </span><%= order.serial_number %></div>
           <div class="text-sm mb-2"><span class="font-bold">Created At: </span><%= order.created_at %></div>
           <div class="text-sm mb-2"><span class="font-bold">Status: </span><%= order.state %></div>
+          <% if order.may_cancel? %>
+            <div>
+              <%= button_to 'Cancel', cancel_client_order_path(order), class: 'btn btn-danger', method: :post %>
+            </div>
+          <% end %>
         </div>
       <% end %>
       <div class="flex justify-center">
