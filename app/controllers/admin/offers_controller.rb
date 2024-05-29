@@ -2,7 +2,7 @@ class Admin::OffersController < AdminController
   before_action :set_offer, except: [:index, :create, :new]
 
   def index
-    @offers = Offer.all
+    @offers = Offer.all.page(params[:page]).per(5)
     @offers = @offers.where(status: params[:status]) if params[:status] && params[:status] != 'All'
   end
 

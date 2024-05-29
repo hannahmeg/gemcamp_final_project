@@ -25,28 +25,29 @@
     </div>
   <% end %>
 
-<div class="pt-10">
-  <table class="table table-bordered">
-    <thead>
-    <tr>
-      <th>Serial Number</th>
-      <th>Item Name</th>
-      <th>Email</th>
-      <th>State</th>
-      <th>Created At</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @tickets.each do |ticket| %>
+  <div class="pt-10">
+    <table class="table table-bordered">
+      <thead>
       <tr>
-        <td><%= ticket.serial_number %></td>
-        <td><%= ticket.item.name %></td>
-        <td><%= ticket.user.email %></td>
-        <td><%= ticket.state %></td>
-        <td><%= ticket.created_at %></td>
+        <th>Serial Number</th>
+        <th>Item Name</th>
+        <th>Email</th>
+        <th>State</th>
+        <th>Created At</th>
       </tr>
-    <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+      <% @tickets.each do |ticket| %>
+        <tr>
+          <td><%= ticket.serial_number %></td>
+          <td><%= ticket.item.name %></td>
+          <td><%= ticket.user.email %></td>
+          <td><%= ticket.state %></td>
+          <td><%= ticket.created_at %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= paginate @tickets %>
 </div>

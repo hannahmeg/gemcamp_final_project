@@ -2,7 +2,7 @@ class Admin::ItemsController < AdminController
   before_action :set_item, except: [:index, :create, :new]
 
   def index
-    @items = Item.all
+    @items = Item.all.page(params[:page]).per(5)
   end
 
   def new

@@ -48,6 +48,8 @@
   <% end %>
   </tbody>
 </table>
-
-<%= link_to 'Add New Offer', new_admin_offer_path, class: 'btn btn-primary' %>
+  <%= paginate @offers %>
+  <div class="pt-4">
+    <%= link_to 'Add New Offer', new_admin_offer_path, class: 'btn btn-primary' %>
+  </div>
 </div>

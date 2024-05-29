@@ -76,6 +76,9 @@
       <% end %>
       </tbody>
     </table>
+    <%= paginate @items %>
+    <div class="pt-4">
     <%= link_to 'Add New Item', new_admin_item_path, class: 'btn btn-primary' %>
+    </div>
   </div>
 </div>
