@@ -9,6 +9,7 @@ Rails.application.routes.draw do
         get 'winning_history'
         get 'invitation_history'
         resources 'claim', only: [:show, :update]
+        resources 'share', only: [:show, :update]
       end
       resources 'lottery'
       resources 'shop', only: [:index]
