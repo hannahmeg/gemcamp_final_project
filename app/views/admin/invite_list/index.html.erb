@@ -1,0 +1,47 @@
+<div class="container text-sm" style="padding: 20px;">
+  <h1>Invite List</h1>
+
+  <%= form_tag admin_invite_list_index_path, method: :get, class: "form-inline mb-2" do %>
+    <div class="form-group mr-2">
+      <%= label_tag :parent_email, "Search by Parent Email" %>
+      <%= text_field_tag :parent_email, params[:parent_email], class: "form-control" %>
+    </div>
+    <div class="pt-2">
+      <%= submit_tag "Search", class: "btn btn-primary mr-2" %>
+      <% if params[:parent_email].present? %>
+        <%= link_to "Clear Filter", admin_invite_list_index_path, class: "btn btn-secondary" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Parent Email</th>
+      <th>Email</th>
+      <th>Total Deposit</th>
+      <th>Members Total Deposit</th>
+      <th>Coins</th>
+      <th>Created At</th>
+      <th>Coins Used Count</th>
+      <th>Child Members</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.parent.email if user.parent %></td>
+        <td><%= user.email %></td>
+        <td><%= user.total_deposit %></td>
+        <td><%= user.children.sum(:total_deposit) %></td>
+        <td><%= user.coins %></td>
+        <td><%= user.created_at %></td>
+        <td><%= user.tickets_count %></td>
+        <td><%= user.children_members %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <%= paginate @users %>
+</div>

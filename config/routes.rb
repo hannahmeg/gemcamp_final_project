@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     devise_for :users, controllers: { sessions: 'admin/sessions' }, as: :admin
     namespace :admin, path: '' do
       resources :categories, except: [:show]
+      resources :invite_list, only: [:index]
       resources :tickets, only: [:index]
       resources :orders, only: [:index] do
         member do
