@@ -1,0 +1,9 @@
+<div class="container-md p-5">
+  <%= render 'header' %>
+  <div class="border-1 max-w-xl pb-4">
+    <div class="p-5">
+      <h1>Deduct Order</h1>
+      <%= render 'form', url_path: create_deduct_admin_orders_path(id: @client.id) %>
+    </div>
+  </div>
+</div>

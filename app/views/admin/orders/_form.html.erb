@@ -1,0 +1,31 @@
+<%= form_with model: @order, url: url_path, method: :post, id: 'order-form' do |form| %>
+  <% if @order.errors.any? %>
+    <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+    <ul>
+      <% @order.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="pt-2">
+    <div style="margin-bottom: 5px;">
+      <%= form.label :coin, 'Coins:', style: "font-weight: bold;" %>
+    </div>
+    <div style="margin-bottom: 10px;">
+      <%= form.number_field :coin, style: "width: 100px; padding: 5px; border-radius: 3px; border: 1px solid #ccc;", min: 1, required: true %>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 5px;">
+    <%= form.label :remarks, 'Remarks:', style: "font-weight: bold;" %>
+  </div>
+  <div style="margin-bottom: 10px;">
+    <%= form.text_field :remarks, style: "width: 300px; height: 100px; padding: 5px; border-radius: 3px; border: 1px solid #ccc;" %>
+  </div>
+
+  <div class="pt-2">
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+

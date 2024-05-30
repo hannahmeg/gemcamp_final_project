@@ -36,6 +36,15 @@ Rails.application.routes.draw do
           post :pay
           post :cancel
         end
+        collection do
+          get 'clients/:client_id', to: 'orders#operate_balance', as: :operate_balance
+          get 'clients/:client_id/increase/new', to: 'orders#new_increase', as: :new_increase
+          post 'clients/:client_id/increase', to: 'orders#create_increase', as: :create_increase
+          get 'clients/:client_id/deduct/new', to: 'orders#new_deduct', as: :new_deduct
+          post 'clients/:client_id/deduct', to: 'orders#create_deduct', as: :create_deduct
+          get 'clients/:client_id/bonus/new', to: 'orders#new_bonus', as: :new_bonus
+          post 'clients/:client_id/bonus', to: 'orders#create_bonus', as: :create_bonus
+        end
       end
       resources :offers
       resource :profile, only: [:show, :edit, :update]

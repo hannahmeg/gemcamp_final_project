@@ -2,11 +2,12 @@ class Order < ApplicationRecord
   include AASM
 
   belongs_to :user
-  belongs_to :offer, required: false
+  belongs_to :offer, optional: true
 
   validates :genre, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }, if: :deposit?
   validates :coin, presence: true, numericality: { greater_than: 0 }, if: :deposit?
+  validates :remarks, presence: true, if: :is_not_deposit?
 
   after_create :generate_serial_number
 
@@ -33,6 +34,9 @@ class Order < ApplicationRecord
     event :pay do
       transitions from: :submitted, to: :paid,
                   success: [:adjust_coins, :increase_total_deposit]
+      transitions from: :pending, to: :paid,
+                  guard: :is_not_deposit?,
+                  success: :adjust_coins
     end
   end
 
@@ -50,34 +54,38 @@ class Order < ApplicationRecord
 
   def adjust_coins
     if deduct?
-      user.update(coins: user.coins - offer.amount)
+      user.update(coins: user.coins - coin)
     else
-      user.update(coins: user.coins + offer.coin)
+      user.update(coins: user.coins + coin)
     end
   end
 
   def increase_total_deposit
-    user.update(total_deposit: user.total_deposit + offer.amount) if deposit?
+    user.update(total_deposit: user.total_deposit + amount) if deposit?
   end
 
   def decrease_total_deposit
-    user.update(total_deposit: user.total_deposit - offer.amount) if deposit?
+    user.update(total_deposit: user.total_deposit - amount) if deposit?
   end
 
   def enough_balance?
-    user.coins > offer.coin
+    user.coins > coin
   end
 
   def decrease_coin_unless_deduct
-    user.update(coins: user.coins - offer.coin)
+    user.update(coins: user.coins - coin)
   end
 
   def increase_coin_if_deduct
-    user.update(coins: user.coins + offer.coin)
+    user.update(coins: user.coins + coin)
   end
 
   def is_not_deduct?
     genre != 'deduct'
+  end
+
+  def is_not_deposit?
+    genre != 'deposit'
   end
 end
 

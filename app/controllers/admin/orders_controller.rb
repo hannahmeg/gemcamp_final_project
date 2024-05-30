@@ -1,5 +1,7 @@
 class Admin::OrdersController < AdminController
+  before_action :authenticate_admin_user!
   before_action :set_order, only: [:pay, :cancel]
+  before_action :set_client, only: [:new_increase, :create_increase, :new_deduct, :create_deduct, :new_bonus, :create_bonus]
 
   def index
     @orders = Order.includes(:user, :offer)
@@ -14,6 +16,52 @@ class Admin::OrdersController < AdminController
     weekly_orders = Order.where(created_at: Time.current.beginning_of_week..Time.current.end_of_week)
     @total_amount = weekly_orders.sum(:amount)
     @total_coins = weekly_orders.sum(:coin)
+  end
+
+  def operate_balance; end
+  def new_increase
+    @order = @client.orders.increase.new
+  end
+
+  def create_increase
+    @order = @client.orders.new(order_params.merge(genre: :increase))
+    if @order.save
+      @order.pay!
+      redirect_to admin_orders_path, notice: 'Increase order was successfully created.'
+    else
+      render :new_increase
+    end
+  end
+
+  def new_deduct
+    @order = @client.orders.deduct.new
+  end
+
+  def create_deduct
+    @order = @client.orders.new(order_params.merge(genre: :deduct))
+    if @order.save
+      if @order.may_pay?
+        @order.pay!
+        redirect_to admin_orders_path, notice: 'Deduct order was successfully created.'
+      else
+        @order.cancel!
+        render :new_deduct
+      end
+    end
+  end
+
+  def new_bonus
+    @order = @client.orders.bonus.new
+  end
+
+  def create_bonus
+    @order = @client.orders.new(order_params.merge(genre: :bonus))
+    if @order.save
+      @order.pay!
+      redirect_to admin_orders_path, notice: 'Bonus order was successfully created.'
+    else
+      render :new_bonus
+    end
   end
 
   def pay
@@ -40,6 +88,14 @@ class Admin::OrdersController < AdminController
 
   def set_order
     @order = Order.find(params[:id])
+  end
+
+  def set_client
+    @client = User.find(params[:client_id])
+  end
+
+  def order_params
+    params.require(:order).permit(:coin, :remarks)
   end
 
   def build_filters(params)

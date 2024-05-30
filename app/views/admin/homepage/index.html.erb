@@ -9,6 +9,7 @@
       <p><strong>Coins:</strong> <%= user.coins %></p>
       <p><strong>Total Used Coins:</strong></p>
       <p><strong>Children Members:</strong> <%= user.children_members %></p>
+      <%= link_to "Operate balance", operate_balance_admin_orders_path(user), class: "btn btn-primary" %>
       <hr>
     </div>
   <% end %>
