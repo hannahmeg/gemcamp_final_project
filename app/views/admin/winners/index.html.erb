@@ -23,14 +23,15 @@
         <%= form.label :end_date, 'End Date' %>
         <%= form.date_field :end_date, class: 'form-control' %>
       </div>
-      <div class="col-md-12 text-right">
+      <div class="col-md-12 p-3">
         <%= form.submit 'Search', class: 'btn btn-primary' %>
+        <%= link_to "Clear Filter", admin_winners_path, class: "btn btn-secondary" %>
       </div>
   <% end %>
   </div>
 
 
-  <div class="pt-10">
+  <div class="pt-2">
     <table class="table table-bordered">
       <thead>
       <tr>
