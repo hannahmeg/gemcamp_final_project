@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_30_055829) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_30_071054) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -98,6 +98,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_30_055829) do
     t.datetime "deleted_at"
   end
 
+  create_table "news_tickers", charset: "utf8mb4", force: :cascade do |t|
+    t.string "content"
+    t.integer "status"
+    t.bigint "user_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_news_tickers_on_user_id"
+  end
+
   create_table "offers", charset: "utf8mb4", force: :cascade do |t|
     t.string "image"
     t.string "name"
@@ -182,6 +192,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_30_055829) do
   add_foreign_key "addresses", "address_provinces"
   add_foreign_key "addresses", "address_regions"
   add_foreign_key "addresses", "users"
+  add_foreign_key "news_tickers", "users"
   add_foreign_key "orders", "offers"
   add_foreign_key "orders", "users"
   add_foreign_key "tickets", "items"

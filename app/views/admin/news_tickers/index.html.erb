@@ -1,0 +1,42 @@
+<div class="container text-sm" style="padding: 20px;">
+  <h1>News Tickers</h1>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Content</th>
+      <th>Status</th>
+      <th>Admin</th>
+      <th>Actions</th>
+      <th colspan="3"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @news_tickers.each do |news_ticker| %>
+      <tr>
+        <td><%= news_ticker.content %></td>
+        <td><%= news_ticker.status %></td>
+        <td><%= news_ticker.user.username %></td>
+        <td>
+          <div class="d-flex flex-column">
+            <div class="d-flex">
+              <div class="mr-2">
+                <%= link_to 'Show', admin_news_ticker_path(news_ticker), class: 'btn btn-primary btn-sm w-100 mb-2' %>
+              </div>
+              <div class="mr-2">
+                <%= link_to 'Edit', edit_admin_news_ticker_path(news_ticker), class: 'btn btn-secondary btn-sm w-100 mb-2' %>
+              </div>
+              <div class="mr-2">
+                <%= button_to 'Destroy', admin_news_ticker_path(news_ticker), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm w-100 mb-2' %>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'Create News Ticker', new_admin_news_ticker_path, class: 'btn btn-primary' %>
+</div>

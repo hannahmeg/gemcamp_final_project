@@ -1,0 +1,28 @@
+<div class="container-md">
+  <%= form_with(model: [:admin, @news_ticker], local: true) do |form| %>
+    <% if news_ticker.errors.any? %>
+      <div id="error_explanation" class="mt-4">
+        <h2><%= pluralize(news_ticker.errors.count, "error") %> prohibited this news_ticker from being saved:</h2>
+        <ul>
+          <% news_ticker.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mt-4">
+      <%= form.label :content %>
+      <%= form.text_area :content, class: 'form-control', required: true %>
+    </div>
+
+    <div class="mt-4">
+      <%= form.label :status %>
+      <%= form.select :status, NewsTicker.statuses.keys.map { |k| [k.humanize, k] }, { include_blank: true }, class: 'form-control', style: 'width: 100px;', required: true %>
+    </div>
+
+    <div class="mt-4">
+      <%= form.submit "Save", class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
