@@ -2,7 +2,7 @@ class Ticket < ApplicationRecord
   include AASM
 
   belongs_to :item
-  belongs_to :user
+  belongs_to :user, counter_cache: true
 
   before_validation :set_batch_count
   validate :user_has_enough_coins
