@@ -1,7 +1,7 @@
 class Admin::TicketsController < AdminController
 
   def index
-    @tickets = Ticket.all.includes(:item).page(params[:page]).per(10)
+    @tickets = Ticket.all.includes([:item, :user]).page(params[:page]).per(10)
     filter_tickets(params)
     @tickets = @tickets.order(created_at: :desc)
   end

@@ -2,7 +2,7 @@ class Admin::WinnersController < AdminController
   before_action :find_winner, except: [:index]
 
   def index
-    @winners = Winner.all.page(params[:page]).per(10)
+    @winners = Winner.all.includes([:item, :user]).page(params[:page]).per(10)
     filter_winners(params)
     @winners = @winners.order(created_at: :desc)
   end
