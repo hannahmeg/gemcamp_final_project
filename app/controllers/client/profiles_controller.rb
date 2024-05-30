@@ -4,19 +4,19 @@ class Client::ProfilesController < ClientController
   def show; end
 
   def lottery_history
-    @tickets = Ticket.includes(:item).where(user_id: current_user.id).page(params[:page]).per(5)
+    @tickets = Ticket.includes(:item).where(user_id: current_user.id).order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def order_history
-    @orders = Order.includes(:offer).where(user_id: current_user.id).page(params[:page]).per(5)
+    @orders = Order.includes(:offer).where(user_id: current_user.id).order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def winning_history
-    @winners = Winner.includes(:item).where(user_id: current_user.id).page(params[:page]).per(5)
+    @winners = Winner.includes(:item).where(user_id: current_user.id).order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def invitation_history
-    @children = User.where(parent_id: current_user.id).page(params[:page]).per(5)
+    @children = User.where(parent_id: current_user.id).order(created_at: :desc).page(params[:page]).per(5)
   end
 
 
