@@ -1,4 +1,4 @@
-<div class="container-md p-10">
+<div class="container-md">
   <%= form_with(model: [:admin, @item], local: true) do |form| %>
     <div class="form-group">
       <%= form.label :image %>
@@ -30,7 +30,7 @@
       <%= form.datetime_local_field :offline_at, class: 'form-control', required: true %>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3 pt-3">
       <%= form.collection_check_boxes :category_ids, Category.all, :id, :name %>
     </div>
 
