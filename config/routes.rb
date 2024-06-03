@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :categories, except: [:show]
       resources :invite_list, only: [:index]
       resources :news_tickers
+      resources :banners
       resources :tickets, only: [:index]
       resources :orders, only: [:index] do
         member do

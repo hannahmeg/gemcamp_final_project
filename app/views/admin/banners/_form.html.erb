@@ -1,0 +1,27 @@
+<div class="container-md">
+  <%= form_with(model: [:admin, @banner], local: true) do |form| %>
+    <div class="form-group">
+      <%= form.label :preview %>
+      <%= form.file_field :preview, class: 'form-control', required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :online_at %>
+      <%= form.datetime_local_field :online_at, class: 'form-control', required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :offline_at %>
+      <%= form.datetime_local_field :offline_at, class: 'form-control', required: true %>
+    </div>
+
+    <div class="mt-4">
+      <%= form.label :status %>
+      <%= form.select :status, Banner.statuses.keys.map { |k| [k.humanize, k] }, { include_blank: true }, class: 'form-control', style: 'width: 100px;', required: true %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit 'Submit', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
