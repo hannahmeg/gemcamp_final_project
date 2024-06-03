@@ -1,13 +1,53 @@
 <%= render partial: 'shared_header' %>
 
+
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4">
   <div class="col-span-1 lg:col-span-4 border-b pb-4">
     <button class="border px-4 py-2">Winners Feedback</button>
   </div>
-  <div class="space-y-4">
-    <div class="border p-20">Image 1</div>
+
+  <% @winners.each do |winner| %>
+    <tr>
+      <td>
+        <% if winner.picture&.present? %>
+          <div class="border p-20">
+            <%= image_tag winner.picture.url, size: "100x100", style: "border-radius: 50%;" %> <%= winner.comment %>
+          </div>
+        <% else %>
+          <div class="border p-20">
+            <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  <div class="border p-20">
+    <%= link_to client_share_page_index_path do %>
+      More ...
+    <% end %>
   </div>
-  <div class="border p-20">Image 2</div>
-  <div class="border p-20">Image 3</div>
-  <div class="border p-20">More ...</div>
+
+  <div class="col-span-1 lg:col-span-4 border-b pb-4">
+    <button class="border px-4 py-2">Items</button>
+  </div>
+
+  <% @items.each do |item| %>
+    <tr>
+      <td>
+        <%= link_to client_lottery_path(item) do %>
+          <% if item.image&.present? %>
+            <div class="border p-20"> <%= image_tag item.image.url, size: "100x100", style: "border-radius: 50%;" %> <%= item.name %></div>
+          <% else %>
+            <div class="border p-20">
+              <img src="https://placehold.co/100x100" alt="User Avatar" class="rounded-full mb-4"/></div>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  <div class="border p-20">
+    <%= link_to client_lottery_index_path do %>
+      More ...
+    <% end %>
+  </div>
 </div>
