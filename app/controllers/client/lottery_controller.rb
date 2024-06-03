@@ -4,6 +4,8 @@ class Client::LotteryController < ClientController
   def index
     @items = Item.active.starting.where("online_at <= ? AND offline_at >= ?", Time.current, Time.current).includes(:categories)
     @categories = Category.all
+    @banners = Banner.active.where("online_at <= ? AND offline_at >= ?", Time.current, Time.current)
+    @news_tickers = NewsTicker.active.limit(5)
   end
 
   def show
