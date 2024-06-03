@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_30_081753) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_03_084843) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -184,7 +184,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_30_081753) do
     t.bigint "address_id"
     t.integer "item_batch_count"
     t.string "state"
-    t.float "price"
+    t.float "price", default: 0.0
     t.datetime "paid_at"
     t.integer "admin_id"
     t.string "picture"
