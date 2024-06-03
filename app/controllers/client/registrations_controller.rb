@@ -18,6 +18,7 @@ class Client::RegistrationsController < Devise::RegistrationsController
         parent.increment!(:children_members)
         cookies.delete(:promoter)
       end
+      sign_in :user, @user
       redirect_to client_root_path, notice: 'Registration successful!'
     else
       flash.now[:alert] = 'Registration failed'
@@ -25,7 +26,7 @@ class Client::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  protected
+  private
 
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :username, :phone_number, :password, :image])
