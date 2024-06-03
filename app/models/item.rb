@@ -72,7 +72,7 @@ class Item < ApplicationRecord
     winning_ticket = tickets.where(batch_count: batch_count, state: 'pending').sample
     return unless winning_ticket
 
-    Winner.create(item: self, batch_count: batch_count, user: winning_ticket.user, ticket: winning_ticket, state: 'won')
+    Winner.create(item: self, item_batch_count: batch_count, user: winning_ticket.user, ticket: winning_ticket, state: 'won')
     tickets.where(batch_count: batch_count).update_all(state: 'lost')
     winning_ticket.update(state: 'won')
   end
