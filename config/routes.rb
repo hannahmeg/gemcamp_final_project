@@ -76,13 +76,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :regions, only: [] do
-        get :provinces, on: :member
+        get 'provinces', to: 'regions#provinces'
       end
       resources :provinces, only: [] do
-        get :cities, on: :member
+        get 'cities', to: 'provinces#cities'
       end
       resources :cities, only: [] do
-        get :barangays, on: :member
+        get 'barangays', to: 'cities#barangays'
       end
     end
   end
