@@ -1,7 +1,7 @@
 class NewsTicker < ApplicationRecord
   belongs_to :user
 
-  enum status: { inactive: 0, active: 1 }
+  enum status: { active: 0, inactive: 1 }
 
   default_scope { where(deleted_at: nil) }
 
