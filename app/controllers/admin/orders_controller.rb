@@ -1,7 +1,7 @@
 class Admin::OrdersController < AdminController
   before_action :authenticate_admin_user!
   before_action :set_order, only: [:pay, :cancel]
-  before_action :set_client, only: [:new_increase, :create_increase, :new_deduct, :create_deduct, :new_bonus, :create_bonus]
+  before_action :set_client, only: [:new_increase, :create_increase, :new_deduct, :create_deduct, :new_bonus, :create_bonus, :new_member_level, :create_member_level]
 
   def index
     @orders = Order.includes(:user, :offer)
@@ -61,6 +61,20 @@ class Admin::OrdersController < AdminController
       redirect_to admin_orders_path, notice: 'Bonus order was successfully created.'
     else
       render :new_bonus
+    end
+  end
+
+  def new_member_level
+    @order = @client.orders.member_level.new
+  end
+
+  def create_member_level
+    @order = @client.orders.new(order_params.merge(genre: :member_level, remarks: 'Member Level Rewards'))
+    if @order.save
+      @order.pay!
+      redirect_to admin_orders_path, notice: 'Member Level order was successfully created.'
+    else
+      render :new_member_level
     end
   end
 

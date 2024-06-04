@@ -47,8 +47,11 @@ Rails.application.routes.draw do
           post 'clients/:client_id/deduct', to: 'orders#create_deduct', as: :create_deduct
           get 'clients/:client_id/bonus/new', to: 'orders#new_bonus', as: :new_bonus
           post 'clients/:client_id/bonus', to: 'orders#create_bonus', as: :create_bonus
+          get 'clients/:client_id/member_level/new', to: 'orders#new_member_level', as: :new_member_level
+          post 'clients/:client_id/member_level', to: 'orders#create_member_level', as: :create_member_level
         end
       end
+      resources :member_levels
       resources :offers
       resource :profile, only: [:show, :edit, :update]
       resources :items do

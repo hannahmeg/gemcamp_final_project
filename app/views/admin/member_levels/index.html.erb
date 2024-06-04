@@ -1,0 +1,29 @@
+<div class="container text-sm" style="padding: 20px;">
+<h1>Member Levels</h1>
+
+  <table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Level</th>
+    <th>Required Members</th>
+    <th>Coins</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @member_levels.each do |member_level| %>
+    <tr>
+      <td><%= member_level.level %></td>
+      <td><%= member_level.required_members %></td>
+      <td><%= member_level.coins %></td>
+      <td>
+        <%= link_to "Edit", edit_admin_member_level_path(member_level), class: "btn btn-primary btn-sm" %>
+        <%= button_to "Delete", admin_member_level_path(member_level), method: :delete, data: { turbo: true, confirm: "Are you sure you want to delete this member level?" }, class: "btn btn-danger btn-sm" %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to "New Member Level", new_admin_member_level_path, class: "btn btn-primary" %>
+</div>

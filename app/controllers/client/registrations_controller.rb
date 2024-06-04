@@ -16,7 +16,17 @@ class Client::RegistrationsController < Devise::RegistrationsController
       parent = User.find_by(email: cookies[:promoter])
       if parent
         parent.increment!(:children_members)
-        cookies.delete(:promoter)
+        next_level_count = parent.member_level.level + 1
+        next_level = MemberLevel.find_by(level: next_level_count)
+
+        if parent.children_members == next_level.required_members
+          parent.update!(member_level: next_level)
+          @order = parent.orders.new(user_id: parent.id, coin: parent.member_level.coins, genre: :member_level, remarks: 'Member Level Reward')
+          if @order.save
+            @order.submit!
+          end
+          cookies.delete(:promoter)
+        end
       end
       sign_in :user, @user
       redirect_to client_root_path, notice: 'Registration successful!'

@@ -5,6 +5,12 @@
   <div class="mb-4">
     <img src="<%= url_for(controller: 'client/invitations', action: 'generate_qr_code', promoter: current_user.email) %>" alt="QR Code">
   </div>
+  <% next_level_count = current_user.member_level.level + 1
+     next_level = MemberLevel.find_by(level: next_level_count) %>
+  <div class="text-center text-gray-700 py-4 text-sm font-medium">
+    Share to <%= next_level.required_members - current_user.children_members %> more friends and
+    get <%= next_level.coins %> coins.
+  </div>
   <div class="mb-4">
     <p class="text-center"><%= request.base_url %>/users/sign_up?promoter=<%= current_user.email %></p>
   </div>

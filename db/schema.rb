@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_03_084843) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_03_114412) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -108,6 +108,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_03_084843) do
     t.datetime "deleted_at"
   end
 
+  create_table "member_levels", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "level"
+    t.integer "required_members"
+    t.integer "coins"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "news_tickers", charset: "utf8mb4", force: :cascade do |t|
     t.string "content"
     t.integer "status"
@@ -173,7 +181,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_03_084843) do
     t.string "image"
     t.integer "parent_id"
     t.integer "tickets_count"
+    t.bigint "member_level_id", default: 1
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["member_level_id"], name: "index_users_on_member_level_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -207,6 +217,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_03_084843) do
   add_foreign_key "orders", "users"
   add_foreign_key "tickets", "items"
   add_foreign_key "tickets", "users"
+  add_foreign_key "users", "member_levels"
   add_foreign_key "winners", "addresses"
   add_foreign_key "winners", "items"
   add_foreign_key "winners", "tickets"
