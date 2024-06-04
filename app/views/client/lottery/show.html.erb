@@ -5,8 +5,16 @@
   <%= form_with(model: Ticket.new, url: client_tickets_path) do |form| %>
     <%= form.hidden_field :item_id, value: params[:id] %>
     <%= form.label :coins, "Quantity" %>
-    <%= form.number_field :coins, min: 1 %>
-    <%= form.submit "Buy Ticket" %>
+    <%= form.number_field :coins, min: 1, id: "quantity_field" %>
+
+    <div class="d-flex justify-content-center p-2">
+      <button type="button" class="btn btn-outline-primary mr-2" onclick="addQuantity(1)">+1</button>
+      <button type="button" class="btn btn-outline-primary mr-2" onclick="addQuantity(5)">+5</button>
+      <button type="button" class="btn btn-outline-primary mr-2" onclick="addQuantity(10)">+10</button>
+      <button type="button" class="btn btn-outline-primary" onclick="addQuantity(20)">+20</button>
+    </div>
+
+    <%= form.submit "Buy Ticket", class: "btn btn-primary" %>
   <% end %>
 
   <% if current_user %>
@@ -23,5 +31,14 @@
   <% end %>
   </div>
 </div>
+
+
+<script>
+    function addQuantity(amount) {
+        var quantityField = document.getElementById("quantity_field");
+        quantityField.value = parseInt(quantityField.value) + amount;
+    }
+</script>
+
 
 

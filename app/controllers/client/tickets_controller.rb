@@ -12,7 +12,7 @@ class Client::TicketsController < ClientController
     if @ticket.save
       redirect_to client_lottery_path(item), notice: "Ticket(s) created successfully"
     else
-      redirect_to client_lottery_path(item), alert: "Ticket(s) could not be created. Kindly check your balance."
+      redirect_to client_shop_index_path(item), alert: "Ticket(s) could not be created. Kindly check your balance and top-up below."
     end
   end
 
