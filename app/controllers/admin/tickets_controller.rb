@@ -1,9 +1,31 @@
 class Admin::TicketsController < AdminController
+  require 'csv'
 
   def index
     @tickets = Ticket.all.includes([:item, :user]).page(params[:page]).per(10)
     filter_tickets(params)
     @tickets = @tickets.order(created_at: :desc)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        csv_string = CSV.generate do |csv|
+          csv << [
+            Ticket.human_attribute_name(:serial_number), Item.human_attribute_name(:name),
+            User.human_attribute_name(:email), Ticket.human_attribute_name(:state),
+            Ticket.human_attribute_name(:created_at)
+          ]
+
+          @tickets.each do |ticket|
+            csv << [
+              ticket.serial_number, ticket.item.name, ticket.user.email,
+              ticket.state, ticket.created_at
+            ]
+          end
+        end
+        render plain: csv_string
+      end
+    end
   end
 
   def create

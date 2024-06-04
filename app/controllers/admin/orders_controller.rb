@@ -1,4 +1,5 @@
 class Admin::OrdersController < AdminController
+  require 'csv'
   before_action :authenticate_admin_user!
   before_action :set_order, only: [:pay, :cancel]
   before_action :set_client, only: [:new_increase, :create_increase, :new_deduct, :create_deduct, :new_bonus, :create_bonus, :new_member_level, :create_member_level]
@@ -16,9 +17,32 @@ class Admin::OrdersController < AdminController
     weekly_orders = Order.where(created_at: Time.current.beginning_of_week..Time.current.end_of_week)
     @total_amount = weekly_orders.sum(:amount)
     @total_coins = weekly_orders.sum(:coin)
+
+    respond_to do |format|
+      format.html
+      format.csv {
+        csv_string = CSV.generate do |csv|
+          csv << [
+            Order.human_attribute_name(:serial_number), User.human_attribute_name(:email),
+            Order.human_attribute_name(:genre), Order.human_attribute_name(:state),
+            Order.human_attribute_name(:created_at), Offer.human_attribute_name(:name),
+            Order.human_attribute_name(:amount), Order.human_attribute_name(:coins)
+          ]
+
+          @orders.each do |order|
+            csv << [
+              order.serial_number, order.user&.email, order.genre, order.state,
+              order.created_at, order.offer&.name, order.amount, order.coin
+            ]
+          end
+        end
+        render plain: csv_string
+      }
+    end
   end
 
   def operate_balance; end
+
   def new_increase
     @order = @client.orders.increase.new
   end

@@ -1,5 +1,8 @@
 <div class="container text-sm" style="padding: 20px;">
-  <h1>Invite List</h1>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Invite List</h1>
+    <%= link_to 'Export CSV', admin_invite_list_index_path(format: :csv, parent_email: params[:parent_email], page: params[:page]), class: "btn btn-primary" %>
+  </div>
 
   <%= form_tag admin_invite_list_index_path, method: :get, class: "form-inline mb-2" do %>
     <div class="form-group mr-2">

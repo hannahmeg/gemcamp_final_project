@@ -1,8 +1,31 @@
 class Admin::ItemsController < AdminController
+  require 'csv'
   before_action :set_item, except: [:index, :create, :new]
 
   def index
     @items = Item.all.page(params[:page]).per(5)
+
+    respond_to do |format|
+      format.html
+      format.csv {
+        csv_string = CSV.generate do |csv|
+          csv << [
+            Item.human_attribute_name(:image), Item.human_attribute_name(:name),
+            Item.human_attribute_name(:quantity), Item.human_attribute_name(:minimum_tickets),
+            Item.human_attribute_name(:state), Item.human_attribute_name(:batch_count),
+            Item.human_attribute_name(:online_at), Item.human_attribute_name(:offline_at)
+          ]
+
+          @items.each do |item|
+            csv << [
+              item.image&.url, item.name, item.quantity, item.minimum_tickets,
+              item.state, item.batch_count, item.online_at, item.offline_at
+            ]
+          end
+        end
+        render plain: csv_string
+      }
+    end
   end
 
   def new

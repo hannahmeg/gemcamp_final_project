@@ -1,10 +1,30 @@
 class Admin::WinnersController < AdminController
+  require 'csv'
   before_action :find_winner, except: [:index]
 
   def index
     @winners = Winner.all.includes([:item, :user]).page(params[:page]).per(10)
     filter_winners(params)
     @winners = @winners.order(created_at: :desc)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        csv_string = CSV.generate do |csv|
+          csv << [
+            Winner.human_attribute_name(:item), User.human_attribute_name(:email),
+            Winner.human_attribute_name(:state)
+          ]
+
+          @winners.each do |winner|
+            csv << [
+              winner.item.name, winner.user.email, winner.state
+            ]
+          end
+        end
+        render plain: csv_string
+      end
+    end
   end
 
   def claim
