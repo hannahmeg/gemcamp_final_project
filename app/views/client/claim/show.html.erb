@@ -1,29 +1,51 @@
 <div class="container-md p-5">
-<% if @addresses.any? %>
-  <%= form_tag(client_profile_claim_path, method: :patch) do %>
-    <% @addresses.each do |address| %>
-      <div style="margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
-        <label>
-          <%= radio_button_tag 'address_id', address.id %>
-          <strong>Address:</strong> <%= address.street_address %><br>
-          <strong>Region:</strong> <%= address.address_region.name %><br>
-          <strong>Province:</strong> <%= address.address_province.name %><br>
-          <strong>City:</strong> <%= address.address_city.name %><br>
-          <strong>Barangay:</strong> <%= address.address_barangay.name %><br>
-          <strong>Genre:</strong> <%= address.genre %><br>
-          <strong>Contact Person:</strong> <%= address.contact_person %><br>
-          <strong>Phone Number:</strong> <%= address.phone_number %><br>
-          <strong>Remark:</strong> <%= address.remark %><br>
-          <strong>Default:</strong> <%= address.is_default ? 'Yes' : 'No' %><br>
-        </label>
-      </div>
+  <% if @addresses.any? %>
+    <% default_address = @addresses.detect { |address| address.is_default } %>
+    <% other_addresses = @addresses - [default_address] %>
+
+    <%= form_tag(client_profile_claim_path, method: :patch) do %>
+      <% if default_address %>
+        <div style="margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+          <label>
+            <%= radio_button_tag 'address_id', default_address.id, true %>
+            <strong>Address:</strong> <%= default_address.street_address %><br>
+            <strong>Region:</strong> <%= default_address.address_region.name %><br>
+            <strong>Province:</strong> <%= default_address.address_province.name %><br>
+            <strong>City:</strong> <%= default_address.address_city.name %><br>
+            <strong>Barangay:</strong> <%= default_address.address_barangay.name %><br>
+            <strong>Genre:</strong> <%= default_address.genre %><br>
+            <strong>Contact Person:</strong> <%= default_address.contact_person %><br>
+            <strong>Phone Number:</strong> <%= default_address.phone_number %><br>
+            <strong>Remark:</strong> <%= default_address.remark %><br>
+            <strong>Default:</strong> <%= default_address.is_default ? 'Yes' : 'No' %><br>
+          </label>
+        </div>
+      <% end %>
+
+      <% other_addresses.each do |address| %>
+        <div style="margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+          <label>
+            <%= radio_button_tag 'address_id', address.id %>
+            <strong>Address:</strong> <%= address.street_address %><br>
+            <strong>Region:</strong> <%= address.address_region.name %><br>
+            <strong>Province:</strong> <%= address.address_province.name %><br>
+            <strong>City:</strong> <%= address.address_city.name %><br>
+            <strong>Barangay:</strong> <%= address.address_barangay.name %><br>
+            <strong>Genre:</strong> <%= address.genre %><br>
+            <strong>Contact Person:</strong> <%= address.contact_person %><br>
+            <strong>Phone Number:</strong> <%= address.phone_number %><br>
+            <strong>Remark:</strong> <%= address.remark %><br>
+            <strong>Default:</strong> <%= address.is_default ? 'Yes' : 'No' %><br>
+          </label>
+        </div>
+      <% end %>
+
+      <%= submit_tag 'Select Address', class: "btn btn-primary" %>
     <% end %>
-    <%= submit_tag 'Select Address', class: "btn btn-primary" %>
+  <% else %>
+    <div class="text-center p-5">
+      <p>You have no addresses added yet.</p>
+      <%= link_to "Add New Address", new_client_address_path, class: 'btn btn-outline-secondary' %>
+    </div>
   <% end %>
-<% else %>
-  <div class="text-center p-5">
-    <p>You have no addresses added yet.</p>
-    <%= link_to "Add New Address", new_client_address_path, class: 'btn btn-outline-secondary' %>
-  </div>
-<% end %>
 </div>
