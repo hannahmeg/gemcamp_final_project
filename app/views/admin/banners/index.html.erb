@@ -22,8 +22,8 @@
             <% end %>
           </td>
           <td><%= banner.status %></td>
-          <td><%= banner.online_at %></td>
-          <td><%= banner.offline_at %></td>
+          <td><%= banner.online_at.strftime("%B %d, %Y %I:%M %p") %></td>
+          <td><%= banner.offline_at.strftime("%B %d, %Y %I:%M %p") %></td>
           <td>
             <div class="d-flex flex-column">
               <div class="d-flex">

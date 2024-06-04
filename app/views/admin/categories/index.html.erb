@@ -13,7 +13,7 @@
     <% @categories.each do |category| %>
       <tr>
         <td><%= category.name %></td>
-        <td><%= category.created_at.strftime("%B %d %Y") %></td>
+        <td><%= category.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
         <td>
           <%= link_to 'Edit', edit_admin_category_path(category), class: "btn btn-primary btn-sm" %>
           <%= button_to 'Delete', admin_category_path(category), method: :delete, class: "btn btn-danger btn-sm" %>

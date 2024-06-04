@@ -46,7 +46,7 @@
           <td><%= ticket.item.name %></td>
           <td><%= ticket.user.email %></td>
           <td><%= ticket.state %></td>
-          <td><%= ticket.created_at %></td>
+          <td><%= ticket.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
         </tr>
       <% end %>
       </tbody>

@@ -38,7 +38,7 @@
         <td><%= user.total_deposit %></td>
         <td><%= user.children.sum(:total_deposit) %></td>
         <td><%= user.coins %></td>
-        <td><%= user.created_at %></td>
+        <td><%= user.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
         <td><%= user.tickets_count %></td>
         <td><%= user.children_members %></td>
       </tr>

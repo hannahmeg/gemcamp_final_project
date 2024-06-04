@@ -34,8 +34,8 @@
           <td><%= item.minimum_tickets %></td>
           <td><%= item.state %></td>
           <td><%= item.batch_count %></td>
-          <td><%= item.online_at %></td>
-          <td><%= item.offline_at %></td>
+          <td><%= item.online_at.strftime("%B %d, %Y %I:%M %p") %></td>
+          <td><%= item.offline_at.strftime("%B %d, %Y %I:%M %p") %></td>
           <td>
             <% if current_admin_user.admin? %>
               <div class="d-flex">
