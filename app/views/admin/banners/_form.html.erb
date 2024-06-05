@@ -1,8 +1,12 @@
 <div class="container-md">
   <%= form_with(model: [:admin, @banner], local: true) do |form| %>
     <div class="form-group">
-      <%= form.label :preview %>
-      <%= form.file_field :preview, class: 'form-control', required: true %>
+      <%= form.label :preview, 'Preview' %>
+      <%= image_tag(@banner.preview.url, id: 'preview_image', class: 'img-fluid mb-2', style: 'max-height: 200px;') if @banner.preview.present? %>
+      <label for="preview_file" id="preview_label" class="btn btn-primary">
+        <%= @banner.preview.present? ? 'Change Image' : 'Choose Image' %>
+        <%= form.file_field :preview, style: 'display: none;', id: 'preview_file', onchange: 'previewFile()' %>
+      </label>
     </div>
 
     <div class="form-group">
@@ -20,7 +24,14 @@
       <%= form.select :status, Banner.statuses.keys.map { |k| [k.humanize, k] }, { include_blank: true }, class: 'form-control', style: 'width: 100px;', required: true %>
     </div>
 
-    <div class="actions">
+    <% if @banner.persisted? %>
+      <div class="form-group">
+        <%= form.label :sort %>
+        <%= form.number_field :sort, class: 'form-control', style: 'width: 100px;', required: true %>
+      </div>
+    <% end %>
+
+    <div class="actions pt-2">
       <%= form.submit 'Submit', class: 'btn btn-primary' %>
     </div>
   <% end %>

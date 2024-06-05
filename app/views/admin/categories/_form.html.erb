@@ -4,6 +4,13 @@
     <%= form.text_field :name, class: 'form-control' %>
   </div>
 
+  <% if @category.persisted? %>
+    <div class="form-group">
+      <%= form.label :sort %>
+      <%= form.number_field :sort, class: 'form-control', style: 'width: 100px;', required: true %>
+    </div>
+  <% end %>
+
   <div class="form-group mt-3">
     <%= form.submit class: 'btn btn-primary' %>
   </div>

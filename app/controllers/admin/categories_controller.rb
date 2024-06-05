@@ -2,7 +2,7 @@ class Admin::CategoriesController < AdminController
   before_action :set_category, only: [:edit, :update, :destroy]
 
   def index
-    @categories = Category.all.page(params[:page]).per(5)
+    @categories = Category.all.page(params[:page]).per(5).order(:sort)
   end
 
   def new
@@ -10,10 +10,13 @@ class Admin::CategoriesController < AdminController
   end
 
   def create
-    @category = Category.new(category_params)
+    last_sort_number = Category.maximum(:sort)
+    new_sort_number = last_sort_number ? last_sort_number + 1 : 1
+    @category = Category.new(category_params.merge(sort: new_sort_number))
     if @category.save
       redirect_to admin_categories_path, notice: 'Category was successfully created.'
     else
+      flash.now[:alert] = 'Failed to create category.'
       render :new
     end
   end
@@ -44,6 +47,6 @@ class Admin::CategoriesController < AdminController
   end
 
   def category_params
-    params.require(:category).permit(:name)
+    params.require(:category).permit(:name, :sort)
   end
 end

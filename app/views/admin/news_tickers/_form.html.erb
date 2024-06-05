@@ -21,6 +21,13 @@
       <%= form.select :status, NewsTicker.statuses.keys.map { |k| [k.humanize, k] }, { include_blank: true }, class: 'form-control', style: 'width: 100px;', required: true %>
     </div>
 
+    <% if @news_ticker.persisted? %>
+      <div class="form-group">
+        <%= form.label :sort %>
+        <%= form.number_field :sort, class: 'form-control', style: 'width: 100px;', required: true %>
+      </div>
+    <% end %>
+
     <div class="mt-4">
       <%= form.submit "Save", class: 'btn btn-primary' %>
     </div>
